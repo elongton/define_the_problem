@@ -7,7 +7,7 @@ class Problem(models.Model):
     author = models.ForeignKey('auth.User') #we only expect one person to come in and have power over the blog
     title = models.CharField(max_length=200)
     text=models.TextField()
-    create_date = models.DateTimeField(default=timezone.now())
+    create_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
 
     def publish(self):
@@ -25,7 +25,7 @@ class Comment(models.Model):
     post = models.ForeignKey('problems.Problem', related_name='comments')
     author = models.CharField(max_length=200)
     text = models.TextField()
-    create_date = models.DateTimeField(default=timezone.now())
+    create_date = models.DateTimeField(default=timezone.now)
     approved_comment = models.BooleanField(default=False)
 
     def approve(self):
