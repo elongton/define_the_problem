@@ -5,4 +5,4 @@ from django.views.generic import (View, TemplateView,)
 from . import models
 
 class IndexView(TemplateView):
-    template_name = 'index.html'
+    template_name = 'sitewide/index.html'

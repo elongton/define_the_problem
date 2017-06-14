@@ -1,0 +1,41 @@
+{% extends "sitewide/base.html" %}
+{% load widget_tweaks %}
+
+
+{% block content%}
+<div class="jumbotron">
+  <h1>Sign Up.</h1>
+
+
+  {% if user_errors %}
+
+    {% for error in user_errors %}
+      <span class="error_text">{{ error }}</span>
+      <br>
+    {% endfor%}
+  {% endif %}
+  <form method="post"> <!--multipart/form-data is important if you want to upload images -->
+    {% csrf_token %}
+    <div class="row signup_row">
+      <div class="col-sm-12">
+        {{ user_form.username|add_class:"form-control"|attr:"placeholder:Username" }}
+      </div>
+      <div class="col-sm-12 sm_bottom_input">
+        {{ user_form.email|add_class:"form-control"|attr:"placeholder:Email" }}
+      </div>
+      <div class="col-sm-12">
+        {{ user_form.password|add_class:"form-control"|attr:"placeholder:Password" }}
+      </div>
+      <div class="col-sm-12 sm_bottom_input">
+        {{ user_form.password_confirm|add_class:"form-control"|attr:"placeholder:Confirm Password" }}
+      </div>
+    </div>
+
+    <input class="btn btn-success" type="submit" name="" value="Register">
+  </form>
+</div>
+
+
+
+
+{% endblock %}
