@@ -1,0 +1,21 @@
+{% extends "sitewide/base.html" %}
+
+
+{% block content %}
+
+  <h1>Describe the problem</h1>
+
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" class='btn btn-primary' value=Submit>
+  </form>
+
+
+
+  <hr>
+  <p>Before being able to confront a problem its existence needs to be identified. This might seem an obvious statement but, quite often, problems will have an impact for some time before they are recognised or brought to the attention of someone who can do anything about them.</p>
+  <p><strong>Looking at the problem in terms of goals and barriers can offer an effective way of defining many problems and splitting bigger problems into more manageable sub-problems.</strong></p>
+
+
+{% endblock %}

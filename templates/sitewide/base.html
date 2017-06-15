@@ -26,7 +26,7 @@
             <a href="">Browse</a>
           </li>
           <li>
-            <a href="">Add a Problem</a>
+            <a href="{% url "problems:create" %}">Add a Problem</a>
           </li>
           {% if user.is_authenticated %}
           <li>

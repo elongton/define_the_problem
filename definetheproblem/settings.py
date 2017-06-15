@@ -16,6 +16,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 USER_TEMPLATES_DIR = os.path.join(BASE_DIR, 'users/templates')
+PROBLEM_TEMPLATES_DIR = os.path.join(BASE_DIR, 'problems/templates')
 
 
 
@@ -61,7 +62,7 @@ ROOT_URLCONF = 'definetheproblem.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATES_DIR, USER_TEMPLATES_DIR],
+        'DIRS': [TEMPLATES_DIR, USER_TEMPLATES_DIR, PROBLEM_TEMPLATES_DIR,],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
