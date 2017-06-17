@@ -31,7 +31,7 @@ class Comment(models.Model):
     text = models.TextField()
     create_date = models.DateTimeField(default=timezone.now)
     approved_comment = models.BooleanField(default=False)
-    likes = models.ManyToManyField(User, related_name='likes')
+    likes = models.ManyToManyField(User, related_name='comment_likes')
 
 
     def total_likes(self):
@@ -54,7 +54,7 @@ class Reply(models.Model):
     text = models.TextField()
     create_date = models.DateTimeField(default=timezone.now)
     approved_reply = models.BooleanField(default=False)
-    likes = models.ManyToManyField(User, related_name='likes')
+    likes = models.ManyToManyField(User, related_name='reply_likes')
 
     def total_likes(self):
         return self.likes.count()
