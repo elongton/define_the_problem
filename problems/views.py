@@ -18,15 +18,15 @@ from . import models
 @login_required
 def like_comment(request,pk):
     comment = get_object_or_404(models.Comment,pk=pk)
-    like = get_object_or_404(models.Like, pk=pk)
-
+    like = models.Like(active=True, user=request.user, comment=comment)
+    like.save()
     return redirect('problems:problem_detail',pk=comment.problem.pk)
 
 @login_required
 def like_reply(request,pk):
     reply = get_object_or_404(models.Reply,pk=pk)
-    like = get_object_or_404(models.Like, pk=pk)
-    
+    like = models.Like(active=True, user=request.user, reply=reply)
+    like.save()
     return redirect('problems:problem_detail',pk=reply.comment.problem.pk)
 
 @login_required

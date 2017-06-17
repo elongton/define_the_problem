@@ -5,13 +5,6 @@ from django.core.urlresolvers import reverse
 from django.dispatch import receiver
 
 
-class Like(models.Model):
-    user = models.ForeignKey(User)
-    comment = models.ForeignKey('problems.Comment', related_name='comments', null=True, blank=True)
-    reply = models.ForeignKey('problems.Reply', related_name='replies', null=True, blank=True)
-    active = models.BooleanField(default = False)
-
-
 class Problem(models.Model):
     author = models.ForeignKey(User)
     text = models.TextField()
@@ -38,7 +31,11 @@ class Comment(models.Model):
     text = models.TextField()
     create_date = models.DateTimeField(default=timezone.now)
     approved_comment = models.BooleanField(default=False)
-    likes = models.IntegerField(default = 0)
+    likes = models.ManyToManyField(User, related_name='likes')
+
+
+    def total_likes(self):
+        return self.likes.count()
 
     def approve(self):
         self.approved_comment = True
@@ -57,8 +54,10 @@ class Reply(models.Model):
     text = models.TextField()
     create_date = models.DateTimeField(default=timezone.now)
     approved_reply = models.BooleanField(default=False)
+    likes = models.ManyToManyField(User, related_name='likes')
 
-    likes = models.IntegerField(default = 0)
+    def total_likes(self):
+        return self.likes.count()
 
     def approve(self):
         self.approved_comment = True
