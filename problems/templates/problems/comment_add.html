@@ -1,0 +1,18 @@
+{% extends "sitewide/base.html" %}
+
+
+{% block content %}
+
+<h1>Responding to:</h1>
+<h2>{{problem.text}}</h2>
+
+<form method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" class='btn btn-primary' value=Submit>
+</form>
+
+
+
+
+{% endblock %}

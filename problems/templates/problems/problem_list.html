@@ -1,0 +1,19 @@
+{% extends "sitewide/base.html" %}
+
+
+{% block content %}
+
+
+  {% for problem in problems%}
+  <a class="problem_item" href="{% url 'problems:problem_detail' pk=problem.pk %}">
+      <div>
+        <h4>{{problem.text}}</h4>
+        <h5>Written by: {{problem.author}} | {{problem.comments.count}} comments</h5>
+        <hr>
+      </div>
+  </a>
+
+  {% endfor%}
+
+
+{% endblock %}

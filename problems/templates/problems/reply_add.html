@@ -1,0 +1,22 @@
+{% extends "sitewide/base.html" %}
+
+
+{% block content %}
+
+<h1>Responding to:</h1>
+{% if comment.text %}
+<h2>{{comment.text}}</h2>
+{% else %}
+<h2>{{reply.text}}</h2>
+{% endif %}
+
+<form method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" class='btn btn-primary' value=Submit>
+</form>
+
+
+
+
+{% endblock %}

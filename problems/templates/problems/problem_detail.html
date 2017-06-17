@@ -4,8 +4,23 @@
 {% block content %}
   <div class="jumbotron">
     <h3>{{problem.text}}</h3>
-
-
+    <h5>{{problem.author}}</h5>
+    <a class=" btn btn-primary btn-comment" href="{% url "problems:createcomment" pk=problem.pk %}">Add Comment</a>
   </div>
+{% if problem.comments.all.count > 0 %}
+  {% for comment in problem.comments.all %}
+    <strong>{{comment.author}}</strong>: {{comment.text}}
+    <br>
+    <a href="{% url 'problems:likecomment' pk=comment.pk %}">Like</a>&nbsp;{{comment.likes}}&nbsp;&nbsp;<a href="{% url 'problems:createreply' pk=comment.pk %}">Reply</a>
+    <br>
+    {% for reply in comment.replies.all %}
+    <div id="replydiv">
+      <strong>{{reply.author}}</strong>: {{reply.text}}
+      <br>
+      <a href="{% url 'problems:likecomment' pk=comment.pk %}">Like</a>&nbsp;{{reply.likes}}&nbsp;&nbsp;<a href="{% url 'problems:createreplyreply' pk=reply.pk %}">Reply</a>
+    </div>
+    {% endfor %}
+  {% endfor%}
+{% endif %}
 
 {% endblock %}
