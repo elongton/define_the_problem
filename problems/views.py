@@ -11,8 +11,6 @@ from django.views.generic import (View, TemplateView,
 from problems.forms import ProblemForm, CommentForm, ReplyForm
 from . import models
 
-
-
 #######################
 # FUNCTION BASED VIEWS
 #######################
@@ -20,14 +18,16 @@ from . import models
 @login_required
 def like_comment(request,pk):
     comment = get_object_or_404(models.Comment,pk=pk)
-    comment.like()
+    like = get_object_or_404(models.Like, pk=pk)
+
     return redirect('problems:problem_detail',pk=comment.problem.pk)
 
 @login_required
 def like_reply(request,pk):
     reply = get_object_or_404(models.Reply,pk=pk)
-    reply.like()
-    return redirect('problems:problem_detail',pk=comment.problem.pk)
+    like = get_object_or_404(models.Like, pk=pk)
+    
+    return redirect('problems:problem_detail',pk=reply.comment.problem.pk)
 
 @login_required
 def add_reply_to_reply(request,pk):
