@@ -11,14 +11,18 @@
   {% for comment in problem.comments.all %}
     <strong>{{comment.author}}</strong>: {{comment.text}}
     <br>
-    <a href="{% url 'problems:likecomment' pk=comment.pk %}">Like</a>&nbsp;{{comment.total_likes}}&nbsp;&nbsp;
+    <a href="{% url 'problems:likecomment' pk=comment.pk %}">
+      {% if comment.liked == True %}Unlike{% else %}Like{% endif %}
+    </a>&nbsp;{{comment.total_likes}}&nbsp;&nbsp;
     <a href="{% url 'problems:createreply' pk=comment.pk %}">Reply</a>
     <br>
     {% for reply in comment.replies.all %}
     <div id="replydiv">
       <strong>{{reply.author}}</strong>: {{reply.text}}
       <br>
-      <a href="{% url 'problems:likereply' pk=reply.pk %}">Like</a>&nbsp;{{reply.total_likes}}&nbsp;&nbsp;
+      <a href="{% url 'problems:likereply' pk=reply.pk %}">
+        {% if reply.liked == True %}Unlike{% else %}Like{% endif %}
+      </a>&nbsp;{{reply.total_likes}}&nbsp;&nbsp;
       <a href="{% url 'problems:createreplyreply' pk=reply.pk %}">Reply</a>
     </div>
     {% endfor %}

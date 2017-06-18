@@ -24,7 +24,6 @@ class Problem(models.Model):
     def __str__(self):
         return str(self.create_date)
 
-
 class Comment(models.Model):
     problem = models.ForeignKey('problems.Problem', related_name='comments')
     author = models.ForeignKey(User)
@@ -32,7 +31,15 @@ class Comment(models.Model):
     create_date = models.DateTimeField(default=timezone.now)
     approved_comment = models.BooleanField(default=False)
     likes = models.ManyToManyField(User, related_name='comment_likes')
+    liked = models.BooleanField(default=False)
 
+    def likeit(self):
+        self.liked = True
+        self.save()
+
+    def unlikeit(self):
+        self.liked = False
+        self.save()
 
     def total_likes(self):
         return self.likes.count()
@@ -47,7 +54,6 @@ class Comment(models.Model):
     def __str__(self):
         return self.text
 
-
 class Reply(models.Model):
     comment = models.ForeignKey('problems.Comment', related_name='replies')
     author = models.ForeignKey(User)
@@ -55,6 +61,15 @@ class Reply(models.Model):
     create_date = models.DateTimeField(default=timezone.now)
     approved_reply = models.BooleanField(default=False)
     likes = models.ManyToManyField(User, related_name='reply_likes')
+    liked = models.BooleanField(default=False)
+
+    def likeit(self):
+        self.liked = True
+        self.save()
+
+    def unlikeit(self):
+        self.liked = False
+        self.save()
 
     def total_likes(self):
         return self.likes.count()

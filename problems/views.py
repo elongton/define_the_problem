@@ -21,8 +21,10 @@ def like_comment(request,pk):
     user = request.user
     if comment.likes.filter(id=user.id).exists():
         comment.likes.remove(user)
+        comment.unlikeit()
     else:
         comment.likes.add(user)
+        comment.likeit()
 
     return redirect('problems:problem_detail',pk=comment.problem.pk)
 
@@ -32,8 +34,10 @@ def like_reply(request,pk):
     user = request.user
     if reply.likes.filter(id=user.id).exists():
         reply.likes.remove(user)
+        reply.unlikeit()
     else:
         reply.likes.add(user)
+        reply.likeit()
     return redirect('problems:problem_detail',pk=reply.comment.problem.pk)
 
 @login_required
@@ -106,6 +110,7 @@ class ProblemDetailView(DetailView):
     model = models.Problem
     context_object_name = 'problem'
     template_name = 'problems/problem_detail.html'
+
 
 class ProblemListView(ListView):
     model = models.Problem
