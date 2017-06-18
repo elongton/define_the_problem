@@ -3,10 +3,34 @@
 
 {% block content %}
   <div class="jumbotron">
-    <h3>{{problem.text}}</h3>
-    <h5>{{problem.author}}</h5>
-    <a class=" btn btn-primary btn-comment" href="{% url "problems:createcomment" pk=problem.pk %}">Add Comment</a>
+    <div class="detailproblem_item">
+
+
+    <div class="list_upvotediv">
+      <div class="sub_upvotediv">
+        <span class="glyphicon glyphicon-menu-up ticker"></span>
+      </div>
+      <div class="sub_upvotediv">
+        <span>15</span>
+      </div>
+      <div class="sub_upvotediv">
+        <span class="glyphicon glyphicon-menu-down ticker"></span>
+      </div>
+    </div>
+
+
+    <div class="detailproblem_description">
+      <h3>{{problem.text}}</h3>
+      <h5>Author: <strong>{{problem.author}}</strong></h5>
+    </div>
+
+    </div>
+
+
   </div>
+
+<a class=" btn btn-primary btn-comment" href="{% url "problems:createcomment" pk=problem.pk %}">Add Comment</a>
+<br><br>
 {% if problem.comments.all.count > 0 %}
   {% for comment in problem.comments.all %}
     <strong>{{comment.author}}</strong>: {{comment.text}}

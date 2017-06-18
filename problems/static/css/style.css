@@ -1,6 +1,27 @@
-a.problem_item{
+.dashed{1px dashed black;}
+
+
+
+a.problem_link{
   text-decoration: none;
   color: black;
+  display: inline-block;
+  vertical-align: top;
 }
 
+div.list_upvotediv{
+  text-align: center;
+  width: 50px;
+  display: inline-block;}
+
+.ticker{font-size: 25px;}
 #replydiv{margin-left: 25px;}
+
+.sub_upvotediv span{
+  width: 100%;
+}
+
+
+.detailproblem_description{display: inline-block; vertical-align: top;}
+.detailproblem_description h3{margin-top: 10px;}
+.detailproblem_item{}

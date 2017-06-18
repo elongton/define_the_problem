@@ -5,14 +5,27 @@
 
 
   {% for problem in problems%}
-  <a class="problem_item" href="{% url 'problems:problem_detail' pk=problem.pk %}">
-      <div>
-        <h4>{{problem.text}}</h4>
-        <h5>Written by: {{problem.author}} | {{problem.comments.count}} comments</h5>
-        <hr>
+  <div class="problem_item">
+    <div class="list_upvotediv">
+      <div class="sub_upvotediv">
+        <span class="glyphicon glyphicon-menu-up ticker"></span>
       </div>
-  </a>
+      <div class="sub_upvotediv">
+        <span>15</span>
+      </div>
+      <div class="sub_upvotediv">
+        <span class="glyphicon glyphicon-menu-down ticker"></span>
+      </div>
+    </div>
+    <a class="problem_link" href="{% url 'problems:problem_detail' pk=problem.pk %}">
+        <div class="list_problemdiv">
+          <h4>{{problem.text}}</h4>
+          <h5>Written by: {{problem.author}} | {{problem.comments.count}} comments</h5>
+        </div>
+    </a>
+  </div>
 
+        <hr>
   {% endfor%}
 
 
