@@ -15,6 +15,47 @@ from . import models
 # FUNCTION BASED VIEWS
 #######################
 
+
+def list_upvote(request,pk):
+    upvote_problem(request,pk)
+    return redirect('problems:list')
+def list_downvote(request,pk):
+    downvote_problem(request,pk)
+    return redirect('problems:list')
+
+def detail_upvote(request,pk):
+    problem = upvote_problem(request,pk)
+    return redirect('problems:problem_detail',pk=problem.pk)
+def detail_downvote(request,pk):
+    problem = downvote_problem(request,pk)
+    return redirect('problems:problem_detail',pk=problem.pk)
+
+
+def upvote_problem(request,pk):
+    problem = get_object_or_404(models.Problem,pk=pk)
+    user=request.user
+    if problem.upvotes.filter(id=user.id).exists():
+        problem.upvotes.remove(user)
+    elif problem.downvotes.filter(id=user.id).exists():
+        problem.downvotes.remove(user)
+        problem.upvotes.add(user)
+    else:
+        problem.upvotes.add(user)
+    return problem
+
+def downvote_problem(request,pk):
+    problem = get_object_or_404(models.Problem,pk=pk)
+    user=request.user
+    if problem.downvotes.filter(id=user.id).exists():
+        problem.downvotes.remove(user)
+    elif problem.upvotes.filter(id=user.id).exists():
+        problem.upvotes.remove(user)
+        problem.downvotes.add(user)
+    else:
+        problem.downvotes.add(user)
+    return problem
+
+
 @login_required
 def like_comment(request,pk):
     comment = get_object_or_404(models.Comment,pk=pk)

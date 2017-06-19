@@ -7,15 +7,19 @@
 
 
     <div class="list_upvotediv">
+      <a href="{% url 'problems:detailupvote' pk=problem.pk %}">
+        <div class="sub_upvotediv">
+          <span class="glyphicon glyphicon-menu-up ticker"></span>
+        </div>
+      </a>
       <div class="sub_upvotediv">
-        <span class="glyphicon glyphicon-menu-up ticker"></span>
+        <span>{{problem.total_votes}}</span>
       </div>
-      <div class="sub_upvotediv">
-        <span>15</span>
-      </div>
-      <div class="sub_upvotediv">
-        <span class="glyphicon glyphicon-menu-down ticker"></span>
-      </div>
+      <a href="{% url 'problems:detaildownvote' pk=problem.pk %}">
+        <div class="sub_upvotediv">
+          <span class="glyphicon glyphicon-menu-down ticker"></span>
+        </div>
+      </a>
     </div>
 
 

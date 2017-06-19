@@ -1,7 +1,5 @@
 .dashed{1px dashed black;}
 
-
-
 a.problem_link{
   text-decoration: none;
   color: black;
@@ -20,7 +18,6 @@ div.list_upvotediv{
 .sub_upvotediv span{
   width: 100%;
 }
-
 
 .detailproblem_description{display: inline-block; vertical-align: top;}
 .detailproblem_description h3{margin-top: 10px;}

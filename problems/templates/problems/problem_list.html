@@ -7,15 +7,19 @@
   {% for problem in problems%}
   <div class="problem_item">
     <div class="list_upvotediv">
+      <a href="{% url 'problems:listupvote' pk=problem.pk %}">
+        <div class="sub_upvotediv">
+          <span class="glyphicon glyphicon-menu-up ticker"></span>
+        </div>
+      </a>
       <div class="sub_upvotediv">
-        <span class="glyphicon glyphicon-menu-up ticker"></span>
+        <span>{{problem.total_votes}}</span>
       </div>
-      <div class="sub_upvotediv">
-        <span>15</span>
-      </div>
-      <div class="sub_upvotediv">
-        <span class="glyphicon glyphicon-menu-down ticker"></span>
-      </div>
+      <a href="{% url 'problems:listdownvote' pk=problem.pk %}">
+        <div class="sub_upvotediv">
+          <span class="glyphicon glyphicon-menu-down ticker"></span>
+        </div>
+      </a>
     </div>
     <a class="problem_link" href="{% url 'problems:problem_detail' pk=problem.pk %}">
         <div class="list_problemdiv">

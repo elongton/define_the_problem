@@ -10,6 +10,11 @@ class Problem(models.Model):
     text = models.TextField()
     create_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
+    upvotes = models.ManyToManyField(User, related_name='upvotes')
+    downvotes = models.ManyToManyField(User, related_name='downvotes')
+
+    def total_votes(self):
+        return self.upvotes.count() - self.downvotes.count()
 
     def publish(self):
         self.published_date = timezone.now()
