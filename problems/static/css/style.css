@@ -1,24 +1,53 @@
-.dashed{1px dashed black;}
 
+/*GENERIC CLASSES*/
+.dashed{border: 1px dashed black;}
+.red{background-color: red;}
+.blue{background-color: blue;}
+.green{background-color: green;}
+.box{height: 200px;}
+
+/*DETAIL AND LIST VIEW*/
+div.list_upvotediv{
+  text-align: center;
+  width: 50px;
+  display: inline-block;}
 a.problem_link{
   text-decoration: none;
   color: black;
   display: inline-block;
   vertical-align: top;
+  width: calc(100% - 70px);
 }
-
-div.list_upvotediv{
-  text-align: center;
-  width: 50px;
-  display: inline-block;}
-
 .ticker{font-size: 25px;}
 #replydiv{margin-left: 25px;}
-
 .sub_upvotediv span{
   width: 100%;
 }
-
-.detailproblem_description{display: inline-block; vertical-align: top;}
+ .detailproblem_description{
+  display: inline-block;
+  vertical-align: top;
+  width: calc(100% - 70px);}
 .detailproblem_description h3{margin-top: 10px;}
 .detailproblem_item{}
+
+/*INDEX VIEW*/
+div.index_problemdiv{
+  padding: 10px;
+}
+div.index_problemborder{
+  border: 1px solid black;
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+  padding-left: 0px;}
+
+div.index_problemdescription{
+  width: calc(100% - 70px);
+  display: inline-block;
+  vertical-align: top;
+}
+div.index_problemauthor{
+  text-align: right;
+  position: absolute;
+  right: 20px;
+  bottom: 15px;}

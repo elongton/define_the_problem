@@ -7,4 +7,43 @@
 
 
   <hr>
+
+
+  <h2>Top Problems</h2>
+
+  <div class="row">
+
+  {% for problem in problems %}
+    <div class="col-lg-4 col-md-4 col-sm-6 box index_problemdiv">
+
+        <div class="index_problemborder">
+          <div class="list_upvotediv">
+            <a {% if user.is_authenticated %} href="" {% else %} href="" {% endif %}>
+              <div class="sub_upvotediv">
+                <span class="glyphicon glyphicon-menu-up ticker"></span>
+              </div>
+            </a>
+            <div class="sub_upvotediv">
+              <span>{{problem.0.total_votes}}</span>
+            </div>
+            <a {% if user.is_authenticated %} href="" {% else %} href="" {% endif %}>
+              <div class="sub_upvotediv">
+                <span class="glyphicon glyphicon-menu-down ticker"></span>
+              </div>
+            </a>
+          </div><!-- list_upvotediv -->
+          <a href="{% url 'problems:problem_detail' pk=problem.0.pk %}">
+            <div class="index_problemdescription">
+              <h4>{{problem.0.text}}</h4>
+              <div class="index_problemauthor">
+                added by:{{problem.0.author}}
+              </div>
+            </div><!-- index_problemdescription -->
+          </a>
+        </div><!-- index_problemborder -->
+    </div><!--index_problemdiv -->
+  {% endfor %}
+  </div><!-- row -->
+
+
 {% endblock %}

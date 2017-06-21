@@ -4,54 +4,61 @@
 {% block content %}
   <div class="jumbotron">
     <div class="detailproblem_item">
-
-
-    <div class="list_upvotediv">
-
-      <a {% if user.is_authenticated %} href="{% url 'problems:detailupvote' pk=problem.pk %}" {% else %} href="" {% endif %}>
+      <div class="list_upvotediv">
+        <a {% if user.is_authenticated %} href="{% url 'problems:detailupvote' pk=problem.pk %}" {% else %} href="" {% endif %}>
+          <div class="sub_upvotediv">
+            <span class="glyphicon glyphicon-menu-up ticker"></span>
+          </div>
+        </a>
         <div class="sub_upvotediv">
-          <span class="glyphicon glyphicon-menu-up ticker"></span>
+          <span>{{problem.total_votes}}</span>
         </div>
-      </a>
-      <div class="sub_upvotediv">
-        <span>{{problem.total_votes}}</span>
+        <a {% if user.is_authenticated %} href="{% url 'problems:detaildownvote' pk=problem.pk %}" {% else %} href="" {% endif %}>
+          <div class="sub_upvotediv">
+            <span class="glyphicon glyphicon-menu-down ticker"></span>
+          </div>
+        </a>
+      </div><!-- list_upvotediv -->
+
+      <div class="detailproblem_description">
+        <h3>{{problem.text}}</h3>
+        <h5>Author: <strong>{{problem.author}}</strong></h5>
       </div>
-      <a {% if user.is_authenticated %} href="{% url 'problems:detaildownvote' pk=problem.pk %}" {% else %} href="" {% endif %}>
-        <div class="sub_upvotediv">
-          <span class="glyphicon glyphicon-menu-down ticker"></span>
-        </div>
-      </a>
     </div>
+  </div><!-- jumbotron -->
 
-
-    <div class="detailproblem_description">
-      <h3>{{problem.text}}</h3>
-      <h5>Author: <strong>{{problem.author}}</strong></h5>
-    </div>
-
-    </div>
-
-
-  </div>
-
-<a class=" btn btn-primary btn-comment" href="{% url "problems:createcomment" pk=problem.pk %}">Add Comment</a>
+<a class=" btn btn-primary btn-comment" {% if user.is_authenticated %} href="{% url "problems:createcomment" pk=problem.pk %}"{% else %} href="" {% endif %}>Add Comment</a>
 <br><br>
 {% if problem.comments.all.count > 0 %}
   {% for comment in problem.comments.all %}
     <strong>{{comment.author}}</strong>: {{comment.text}}
     <br>
-    <a href="{% url 'problems:likecomment' pk=comment.pk %}">
-      {% if comment.liked == True %}Unlike{% else %}Like{% endif %}
-    </a>&nbsp;{{comment.total_likes}}&nbsp;&nbsp;
+
+    {% if user.is_authenticated %}
+      <a href="{% url 'problems:likecomment' pk=comment.pk %}">
+        {% if comment.liked == True %}Unlike{% else %}Like{% endif %}
+      </a>
+    {% else %}
+    <span class="glyphicon glyphicon-thumbs-up"></span>
+    {% endif %}
+
+
+
+    &nbsp;{{comment.total_likes}}&nbsp;&nbsp;
     <a href="{% url 'problems:createreply' pk=comment.pk %}">Reply</a>
     <br>
     {% for reply in comment.replies.all %}
     <div id="replydiv">
       <strong>{{reply.author}}</strong>: {{reply.text}}
       <br>
-      <a href="{% url 'problems:likereply' pk=reply.pk %}">
-        {% if reply.liked == True %}Unlike{% else %}Like{% endif %}
-      </a>&nbsp;{{reply.total_likes}}&nbsp;&nbsp;
+      {% if user.is_authenticated %}
+        <a href="{% url 'problems:likereply' pk=reply.pk %}">
+          {% if reply.liked == True %}Unlike{% else %}Like{% endif %}
+        </a>
+      {% else %}
+        <span class="glyphicon glyphicon-thumbs-up"></span>
+      {% endif %}
+      &nbsp;{{reply.total_likes}}&nbsp;&nbsp;
       <a href="{% url 'problems:createreplyreply' pk=reply.pk %}">Reply</a>
     </div>
     {% endfor %}

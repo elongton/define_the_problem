@@ -10,10 +10,59 @@ from django.views.generic import (View, TemplateView,
                                   ListView)
 from problems.forms import ProblemForm, CommentForm, ReplyForm
 from . import models
+from operator import itemgetter, attrgetter
+
+#######################
+# CLASS BASED VIEWS
+#######################
+class IndexView(TemplateView):
+    template_name = 'sitewide/index.html'
+
+class ProblemCreateView(CreateView):
+    model = models.Problem
+    fields = ('text',)
+    template_name = 'problems/problem_add.html'
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return super(ProblemCreateView, self).get(request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(reverse("users:login"))
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super(ProblemCreateView, self).form_valid(form)
+
+class ProblemDetailView(DetailView):
+    model = models.Problem
+    context_object_name = 'problem'
+    template_name = 'problems/problem_detail.html'
+
+class ProblemListView(ListView):
+    model = models.Problem
+    context_object_name = 'problems'
+    template_name = 'problems/problem_list.html'
+
+class IndexProblemListView(ListView):
+    model = models.Problem
+    context_object_name = 'problems'
+    template_name = 'sitewide/index.html'
 
 #######################
 # FUNCTION BASED VIEWS
 #######################
+
+
+def index_topsix(request):
+    problems = models.Problem.objects.all()
+    x = []
+    for problem in problems:
+        x.append((problem, problem.total_votes()))
+    x = sorted(x, key=itemgetter(1), reverse=True)
+    if len(x) >=6:
+        x = x[:6]
+    else:
+        pass
+    problems=x
+    return render(request,'sitewide/index.html',{'problems':problems})
 
 
 def list_upvote(request,pk):
@@ -127,33 +176,3 @@ def add_comment_to_problem(request,pk):
     else:
         form = CommentForm()
     return render(request,'problems/comment_add.html',{'form':form, 'problem':problem})
-
-#######################
-# CLASS BASED VIEWS
-#######################
-class IndexView(TemplateView):
-    template_name = 'sitewide/index.html'
-
-class ProblemCreateView(CreateView):
-    model = models.Problem
-    fields = ('text',)
-    template_name = 'problems/problem_add.html'
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return super(ProblemCreateView, self).get(request, *args, **kwargs)
-        else:
-            return HttpResponseRedirect(reverse("users:login"))
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super(ProblemCreateView, self).form_valid(form)
-
-class ProblemDetailView(DetailView):
-    model = models.Problem
-    context_object_name = 'problem'
-    template_name = 'problems/problem_detail.html'
-
-
-class ProblemListView(ListView):
-    model = models.Problem
-    context_object_name = 'problems'
-    template_name = 'problems/problem_list.html'
