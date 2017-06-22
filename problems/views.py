@@ -65,13 +65,18 @@ def index_topsix(request):
     return render(request,'sitewide/index.html',{'problems':problems})
 
 
+def index_upvote(request,pk):
+    upvote_problem(request,pk)
+    return redirect('problems:home')
+def index_downvote(request,pk):
+    downvote_problem(request,pk)
+    return redirect('problems:home')
 def list_upvote(request,pk):
     upvote_problem(request,pk)
     return redirect('problems:list')
 def list_downvote(request,pk):
     downvote_problem(request,pk)
     return redirect('problems:list')
-
 def detail_upvote(request,pk):
     problem = upvote_problem(request,pk)
     return redirect('problems:problem_detail',pk=problem.pk)

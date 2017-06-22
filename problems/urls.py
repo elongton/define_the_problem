@@ -5,6 +5,8 @@ app_name = 'problems'
 
 urlpatterns = [
     url(r'^$', views.index_topsix, name='home'),
+    url(r'^(?P<pk>\d+)/indexupvote/$',views.index_upvote, name='indexupvote'),
+    url(r'^(?P<pk>\d+)/indexdownvote/$',views.index_downvote, name='indexdownvote'),
     url(r'^create/$', views.ProblemCreateView.as_view(), name='create'),
     url(r'^problem/(?P<pk>\d+)/$', views.ProblemDetailView.as_view(), name='problem_detail'),
     url(r'^browse/$', views.ProblemListView.as_view(), name='list'),
