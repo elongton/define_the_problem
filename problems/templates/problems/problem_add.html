@@ -3,21 +3,67 @@
 
 {% block content %}
 
+{% if pk == '0' %}
   <h1>Describe the problem</h1>
+  <div class="problemform">
+    <form method="POST">
+      {% csrf_token %}
+        {{ form.text|add_class:"form-control"|attr:"placeholder:Describe the problem"}}
+      <div class="row">
+        <div class="col-sm-12">
+          <input type="submit" class='btn btn-primary app_submit' value=Submit>
+          <label>{{ form.anonymous_author|add_class:"form-check-input" }}Submit as anonymous</label>
+        </div>
+      </div>
+    </form>
+  </div><!-- problemform -->
+{% else %}
+  <h1>Root problem: </h1>
+  <div class="problemform">
+    <form method="POST">
+      {% csrf_token %}
+        {{ form.text|add_class:"form-control"|attr:"placeholder:Describe the problem"}}
+      <div class="row">
+        <div class="col-sm-12">
+          <input type="submit" class='btn btn-primary app_submit' value=Submit>
+          <label>{{ form.anonymous_author|add_class:"form-check-input" }}Submit as anonymous</label>
+        </div>
+      </div>
 
-  <form method="POST">
-    {% csrf_token %}
-    {{ form.text|add_class:"form-control"|attr:"placeholder:Describe the problem"}}
-    <label>{{ form.anonymous_author|attr:"value:blah" }}Submit as anonymous</label>
-    <br>
-    <input type="submit" class='btn btn-primary app_submit' value=Submit>
-  </form>
+    </form>
+  </div><!-- problemform -->
+  <div class="jumbotron subjumboproblem">
+    <div class="detailproblem_item">
+      <div class="list_upvotediv">
+        <a class = "{% if user in problem.upvotes.all %}voted{%endif%}" {% if user.is_authenticated %} href="{% url 'problems:detailupvote' pk=problem.pk %}" {% else %} href="{% url "users:login" %}" {% endif %}>
+          <div class="sub_upvotediv">
+            <span class="glyphicon glyphicon-menu-up ticker"></span>
+          </div>
+        </a>
+        <div class="sub_upvotediv">
+          <span>{{problem.total_votes}}</span>
+        </div>
+        <a class = "{% if user in problem.downvotes.all %}voted{%endif%}" {% if user.is_authenticated %} href="{% url 'problems:detaildownvote' pk=problem.pk %}" {% else %} href="{% url "users:login" %}" {% endif %}>
+          <div class="sub_upvotediv">
+            <span class="glyphicon glyphicon-menu-down ticker"></span>
+          </div>
+        </a>
+      </div><!-- list_upvotediv -->
+
+      <div class="detailproblem_description">
+        <h3>{{problem.text}}</h3>
+        <h5>Author: <strong>{% if problem.anonymous_author %}anonymous{% else %}{{problem.author}}{%endif%}</strong></h5>
+      </div>
+    </div>
+  </div><!-- jumbotron -->
+
+{% endif %}
 
 
 
-  <hr>
+  <!-- <hr>
   <p>Before being able to confront a problem its existence needs to be identified. This might seem an obvious statement but, quite often, problems will have an impact for some time before they are recognised or brought to the attention of someone who can do anything about them.</p>
-  <p><strong>Looking at the problem in terms of goals and barriers can offer an effective way of defining many problems and splitting bigger problems into more manageable sub-problems.</strong></p>
+  <p><strong>Looking at the problem in terms of goals and barriers can offer an effective way of defining many problems and splitting bigger problems into more manageable sub-problems.</strong></p> -->
 
 
 {% endblock %}

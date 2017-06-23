@@ -9,6 +9,10 @@
 /*MODIFIERS*/
 a.voted{color: orange;}
 
+
+/*ADD VIEW*/
+.subjumboproblem{margin-left: 50px; margin-top: 15px;}
+
 /*DETAIL AND LIST VIEW*/
 div.list_upvotediv{
   text-align: center;

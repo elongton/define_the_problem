@@ -8,7 +8,8 @@ from django.dispatch import receiver
 class Problem(models.Model):
     author = models.ForeignKey(User)
     anonymous_author = models.BooleanField(default=False)
-    rootproblem = models.ForeignKey('problems.Problem', related_name='subproblems', null=True, blank=True)
+    # rootproblem = models.ForeignKey('self', related_name='subproblems', default='self')
+    # subproblem = models.ForeignKey('self', related_name='rootproblems', default='self')
     text = models.TextField()
     create_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
@@ -29,7 +30,7 @@ class Problem(models.Model):
         return reverse('problems:problem_detail', kwargs={'pk':self.pk} )
 
     def __str__(self):
-        return str(self.create_date)
+        return str(self.text)
 
 class Comment(models.Model):
     problem = models.ForeignKey('problems.Problem', related_name='comments')

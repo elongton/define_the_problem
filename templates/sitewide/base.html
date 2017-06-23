@@ -30,7 +30,7 @@
             <a href="{% url "problems:list" %}">Browse</a>
           </li>
           <li>
-            <a href="{% url "problems:create" %}">Add a Problem</a>
+            <a href="{% url "problems:create" pk=0 %}">Add a Problem</a>
           </li>
           {% if user.is_authenticated %}
           <li>

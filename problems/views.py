@@ -24,11 +24,25 @@ class ProblemCreateView(CreateView):
     template_name = 'problems/problem_add.html'
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return super(ProblemCreateView, self).get(request, *args, **kwargs)
+            if self.kwargs['pk'] == '0':
+                return super(ProblemCreateView, self).get(request, *args, **kwargs)
+            else:
+                print('you are posting a super problem')
+                return super(ProblemCreateView, self).get(request, *args, **kwargs)
         else:
             return HttpResponseRedirect(reverse("users:login"))
+    def get_context_data(self, **kwargs):
+        ctx = super(ProblemCreateView, self).get_context_data(**kwargs)
+        if self.kwargs['pk'] != '0':
+            problem = get_object_or_404(models.Problem,pk=int(self.kwargs['pk']))
+            ctx['problem'] = problem
+        ctx['pk'] = self.kwargs['pk']
+        return ctx
+    # def post(self, request, *args, **kwargs):
+    #     if self.kwargs['pk'] == '0':
     def form_valid(self, form):
         form.instance.author = self.request.user
+        # print(get_object_or_404(models.Problem,pk=int(self.kwargs['pk'])))
         return super(ProblemCreateView, self).form_valid(form)
 
 class ProblemDetailView(DetailView):
@@ -57,8 +71,8 @@ def index_topsix(request):
     for problem in problems:
         x.append((problem, problem.total_votes()))
     x = sorted(x, key=itemgetter(1), reverse=True)
-    if len(x) >=6:
-        x = x[:6]
+    if len(x) >=9:
+        x = x[:9]
     else:
         pass
     problems=x
