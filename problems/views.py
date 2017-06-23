@@ -20,7 +20,7 @@ class IndexView(TemplateView):
 
 class ProblemCreateView(CreateView):
     model = models.Problem
-    fields = ('text',)
+    fields = ('text','anonymous_author')
     template_name = 'problems/problem_add.html'
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -95,6 +95,7 @@ def upvote_problem(request,pk):
         problem.upvotes.add(user)
     else:
         problem.upvotes.add(user)
+    print(problem.upvotes.all())
     return problem
 
 def downvote_problem(request,pk):
@@ -116,10 +117,8 @@ def like_comment(request,pk):
     user = request.user
     if comment.likes.filter(id=user.id).exists():
         comment.likes.remove(user)
-        comment.unlikeit()
     else:
         comment.likes.add(user)
-        comment.likeit()
 
     return redirect('problems:problem_detail',pk=comment.problem.pk)
 
@@ -129,10 +128,8 @@ def like_reply(request,pk):
     user = request.user
     if reply.likes.filter(id=user.id).exists():
         reply.likes.remove(user)
-        reply.unlikeit()
     else:
         reply.likes.add(user)
-        reply.likeit()
     return redirect('problems:problem_detail',pk=reply.comment.problem.pk)
 
 @login_required

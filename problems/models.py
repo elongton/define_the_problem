@@ -7,6 +7,8 @@ from django.dispatch import receiver
 
 class Problem(models.Model):
     author = models.ForeignKey(User)
+    anonymous_author = models.BooleanField(default=False)
+    rootproblem = models.ForeignKey('problems.Problem', related_name='subproblems', null=True, blank=True)
     text = models.TextField()
     create_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
@@ -36,15 +38,6 @@ class Comment(models.Model):
     create_date = models.DateTimeField(default=timezone.now)
     approved_comment = models.BooleanField(default=False)
     likes = models.ManyToManyField(User, related_name='comment_likes')
-    liked = models.BooleanField(default=False)
-
-    def likeit(self):
-        self.liked = True
-        self.save()
-
-    def unlikeit(self):
-        self.liked = False
-        self.save()
 
     def total_likes(self):
         return self.likes.count()
@@ -66,15 +59,6 @@ class Reply(models.Model):
     create_date = models.DateTimeField(default=timezone.now)
     approved_reply = models.BooleanField(default=False)
     likes = models.ManyToManyField(User, related_name='reply_likes')
-    liked = models.BooleanField(default=False)
-
-    def likeit(self):
-        self.liked = True
-        self.save()
-
-    def unlikeit(self):
-        self.liked = False
-        self.save()
 
     def total_likes(self):
         return self.likes.count()

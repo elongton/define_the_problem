@@ -18,15 +18,15 @@
 
         <div class="index_problemborder">
           <div class="list_upvotediv">
-            <a {% if user.is_authenticated %} href="{% url 'problems:indexupvote' pk=problem.0.pk %}" {% else %} href="" {% endif %}>
+            <a class = "{% if user in problem.0.upvotes.all %}voted{%endif%}" {% if user.is_authenticated %} href="{% url 'problems:indexupvote' pk=problem.0.pk %}" {% else %} href="{% url "users:login" %}" {% endif %}>
               <div class="sub_upvotediv">
-                <span class="glyphicon glyphicon-menu-up ticker"></span>
+                  <span class="glyphicon glyphicon-menu-up ticker"></span>
               </div>
             </a>
             <div class="sub_upvotediv">
               <span>{{problem.0.total_votes}}</span>
             </div>
-            <a {% if user.is_authenticated %} href="{% url 'problems:indexdownvote' pk=problem.0.pk %}" {% else %} href="" {% endif %}>
+            <a class = "{% if user in problem.0.downvotes.all %}voted{%endif%}" {% if user.is_authenticated %} href="{% url 'problems:indexdownvote' pk=problem.0.pk %}" {% else %} href="{% url "users:login" %}" {% endif %}>
               <div class="sub_upvotediv">
                 <span class="glyphicon glyphicon-menu-down ticker"></span>
               </div>
@@ -36,7 +36,9 @@
             <div class="index_problemdescription">
               <h4>{{problem.0.text}}</h4>
               <div class="index_problemauthor">
-                added by:{{problem.0.author}}
+                {{problem.0.comments.count}} comments
+                <br>
+                added by: {% if problem.0.anonymous_author %}anonymous{% else %}{{problem.0.author}}{%endif%}
               </div>
             </div><!-- index_problemdescription -->
           </a>

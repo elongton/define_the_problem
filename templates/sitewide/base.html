@@ -23,7 +23,7 @@
     <nav class="navbar navbar-default">
       <div class="container">
         <ul class="nav navbar-nav">
-          <li><a href="{% url "problems:home" %}" class="navbar-brand bigbrand">BuildRVA ProblemNET</a></li>
+          <li><a href="{% url "problems:home" %}" class="navbar-brand bigbrand">RPL ProblemNET</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li>
@@ -34,7 +34,7 @@
           </li>
           {% if user.is_authenticated %}
           <li>
-            <a href="{% url "users:logout" %}">Sign Out</a>
+            <a href="{% url "users:logout" %}">Sign Out ({{user}})</a>
           </li>
           {% else %}
           <li>

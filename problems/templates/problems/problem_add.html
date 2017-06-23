@@ -1,5 +1,5 @@
 {% extends "sitewide/base.html" %}
-
+{% load widget_tweaks %}
 
 {% block content %}
 
@@ -7,8 +7,10 @@
 
   <form method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" class='btn btn-primary' value=Submit>
+    {{ form.text|add_class:"form-control"|attr:"placeholder:Describe the problem"}}
+    <label>{{ form.anonymous_author|attr:"value:blah" }}Submit as anonymous</label>
+    <br>
+    <input type="submit" class='btn btn-primary app_submit' value=Submit>
   </form>
 
 

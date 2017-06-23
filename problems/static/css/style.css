@@ -6,6 +6,9 @@
 .green{background-color: green;}
 .box{height: 200px;}
 
+/*MODIFIERS*/
+a.voted{color: orange;}
+
 /*DETAIL AND LIST VIEW*/
 div.list_upvotediv{
   text-align: center;
@@ -29,6 +32,9 @@ a.problem_link{
   width: calc(100% - 70px);}
 .detailproblem_description h3{margin-top: 10px;}
 .detailproblem_item{}
+
+.app_submit{margin-top: 10px;}
+.conversation{margin-left: 10px;}
 
 /*INDEX VIEW*/
 div.index_problemdiv{

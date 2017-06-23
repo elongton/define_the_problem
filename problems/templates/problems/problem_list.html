@@ -7,7 +7,7 @@
   {% for problem in problems%}
   <div class="problem_item">
     <div class="list_upvotediv">
-      <a href="{% url 'problems:listupvote' pk=problem.pk %}">
+      <a class = "{% if user in problem.upvotes.all %}voted{%endif%}" {% if user.is_authenticated %} href="{% url 'problems:listupvote' pk=problem.pk %}" {% else %} href="{% url "users:login" %}" {% endif %}>
         <div class="sub_upvotediv">
           <span class="glyphicon glyphicon-menu-up ticker"></span>
         </div>
@@ -15,7 +15,7 @@
       <div class="sub_upvotediv">
         <span>{{problem.total_votes}}</span>
       </div>
-      <a href="{% url 'problems:listdownvote' pk=problem.pk %}">
+      <a class = "{% if user in problem.downvotes.all %}voted{%endif%}" {% if user.is_authenticated %} href="{% url 'problems:listdownvote' pk=problem.pk %}" {% else %} href="{% url "users:login" %}" {% endif %}>
         <div class="sub_upvotediv">
           <span class="glyphicon glyphicon-menu-down ticker"></span>
         </div>
@@ -25,7 +25,7 @@
     <a class="problem_link" href="{% url 'problems:problem_detail' pk=problem.pk %}">
         <div class="list_problemdiv">
           <h4>{{problem.text}}</h4>
-          <h5>Written by: {{problem.author}} | {{problem.comments.count}} comments</h5>
+          <h5>Written by: {% if problem.anonymous_author %}anonymous{% else %}{{problem.author}}{%endif%} | {{problem.comments.count}} comments</h5>
         </div>
     </a>
   </div>

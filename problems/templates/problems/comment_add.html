@@ -1,15 +1,15 @@
 {% extends "sitewide/base.html" %}
-
+{% load widget_tweaks %}
 
 {% block content %}
 
-<h1>Responding to:</h1>
+<h1>Adding comment to:</h1>
 <h2>{{problem.text}}</h2>
 
 <form method="POST">
   {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" class='btn btn-primary' value=Submit>
+  {{ form.text|add_class:"form-control"|attr:"placeholder:Add your comment."}}
+  <input type="submit" class='btn btn-primary app_submit' value=Submit>
 </form>
 
 

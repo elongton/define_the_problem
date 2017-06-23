@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .forms import UserForm
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
+from django.contrib.auth import authenticate, login
 # Create your views here.
 
 
@@ -19,8 +20,8 @@ def register(request):
             user.set_password(user.password)
             user.is_active = True
             user.save()
-            # user.set_password(user.password)
             registered = True
+            login(request, user)
             return HttpResponseRedirect(reverse("problems:home"))
         else:
             user_form_errors = user_form.non_field_errors
