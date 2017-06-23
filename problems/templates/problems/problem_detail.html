@@ -27,6 +27,16 @@
     </div>
   </div><!-- jumbotron -->
 
+  {% if problem.root_problem %}Root: {{problem.root_problem.text}}<br><br>{% endif %}
+  {% if problem.sub_problems %}
+    {%for sub in problem.sub_problems.all %}
+      Subproblem: {{sub.text}}
+    {%endfor%}
+    <br><br>
+  {%endif%}
+
+
+
 <a class=" btn btn-primary btn-comment" {% if user.is_authenticated %} href="{% url "problems:createcomment" pk=problem.pk %}"{% else %} href="{% url "users:login" %}" {% endif %}>Add Comment</a>
 &nbsp;
 <a class=" btn btn-primary btn-root" {% if user.is_authenticated %} href="{% url "problems:create" pk=problem.pk %}"{% else %} href="{% url "users:login" %}" {% endif %}>Add Root Problem</a>

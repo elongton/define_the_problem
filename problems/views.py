@@ -42,8 +42,14 @@ class ProblemCreateView(CreateView):
     #     if self.kwargs['pk'] == '0':
     def form_valid(self, form):
         form.instance.author = self.request.user
+        self.object = form.save()
+        if self.kwargs['pk'] != '0':
+            subproblem = get_object_or_404(models.Problem,pk=int(self.kwargs['pk']))
+            subproblem.rootproblem = self.object
+            subproblem.save()
         # print(get_object_or_404(models.Problem,pk=int(self.kwargs['pk'])))
-        return super(ProblemCreateView, self).form_valid(form)
+        # return super(ProblemCreateView, self).form_valid(self, form)
+        return HttpResponseRedirect(self.get_success_url())
 
 class ProblemDetailView(DetailView):
     model = models.Problem
