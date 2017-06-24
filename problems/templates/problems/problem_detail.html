@@ -43,6 +43,8 @@
 <a class=" btn btn-primary btn-comment" {% if user.is_authenticated %} href="{% url "problems:createcomment" pk=problem.pk %}"{% else %} href="{% url "users:login" %}" {% endif %}>Add Comment</a>
 &nbsp;
 <a class=" btn btn-primary btn-root" {% if user.is_authenticated %} href="{% url "problems:create" pk=problem.pk %}"{% else %} href="{% url "users:login" %}" {% endif %}>Add Root Problem</a>
+&nbsp;
+<a class=" btn btn-primary btn-root" {% if user.is_authenticated %} href="{% url "problems:create" pk=problem.pk %}"{% else %} href="{% url "users:login" %}" {% endif %}>Why?</a>
 <br><br>
 {% if problem.comments.all.count > 0 %}
 <div class="conversation">
