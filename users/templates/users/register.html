@@ -17,19 +17,23 @@
   <form method="post"> <!--multipart/form-data is important if you want to upload images -->
     {% csrf_token %}
     <div class="row signup_row">
-      <div class="col-sm-12">
-        {{ user_form.username|add_class:"form-control"|attr:"placeholder:Username" }}
+      <div class="col-sm-6">
+        <div class="register_field">
+          {{ user_form.username|add_class:"form-control"|attr:"placeholder:Username" }}
+        </div>
+        <div class="register_field">
+          {{ user_form.email|add_class:"form-control"|attr:"placeholder:Email"  }}
+        </div>
+      </div><!-- col-sm-6 -->
+      <div class="col-sm-6">
+        <div class="register_field">
+          {{ user_form.password|add_class:"form-control"|attr:"placeholder:Password"  }}
+        </div>
+        <div class="register_field">
+          {{ user_form.password_confirm|add_class:"form-control"|attr:"placeholder:Confirm Password" }}
+        </div>
       </div>
-      <div class="col-sm-12 sm_bottom_input">
-        {{ user_form.email|add_class:"form-control"|attr:"placeholder:Email" }}
-      </div>
-      <div class="col-sm-12">
-        {{ user_form.password|add_class:"form-control"|attr:"placeholder:Password" }}
-      </div>
-      <div class="col-sm-12 sm_bottom_input">
-        {{ user_form.password_confirm|add_class:"form-control"|attr:"placeholder:Confirm Password" }}
-      </div>
-    </div>
+    </div><!-- signup_row -->
 
     <input class="btn btn-success" type="submit" name="" value="Register">
   </form>

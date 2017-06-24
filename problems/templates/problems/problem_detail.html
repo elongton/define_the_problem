@@ -27,7 +27,7 @@
     </div>
   </div><!-- jumbotron -->
 
-  {% if problem.root_problem %}Root: {{problem.root_problem.text}}<br><br>{% endif %}
+  {% if problem.root_problem %}Root: {{problem.root_problem.text}}<br>{% endif %}
   {% if problem.sub_problems %}
     {%for sub in problem.sub_problems.all %}
       Subproblem: {{sub.text}}
