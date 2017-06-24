@@ -3,6 +3,9 @@
 
 {% block content %}
   <div class="jumbotron">
+    {% if problem.has_root %}
+    <div class="has_root">Has Root</div>
+    {%endif%}
     <div class="detailproblem_item">
       <div class="list_upvotediv">
         <a class = "{% if user in problem.upvotes.all %}voted{%endif%}" {% if user.is_authenticated %} href="{% url 'problems:detailupvote' pk=problem.pk %}" {% else %} href="{% url "users:login" %}" {% endif %}>

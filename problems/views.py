@@ -45,7 +45,7 @@ class ProblemCreateView(CreateView):
         self.object = form.save()
         if self.kwargs['pk'] != '0':
             subproblem = get_object_or_404(models.Problem,pk=int(self.kwargs['pk']))
-            subproblem.rootproblem = self.object
+            subproblem.root_problem = self.object
             subproblem.save()
         # print(get_object_or_404(models.Problem,pk=int(self.kwargs['pk'])))
         # return super(ProblemCreateView, self).form_valid(self, form)

@@ -16,6 +16,12 @@ class Problem(models.Model):
     upvotes = models.ManyToManyField(User, related_name='upvotes')
     downvotes = models.ManyToManyField(User, related_name='downvotes')
 
+    def has_root(self):
+        if self.root_problem:
+            return True
+        else:
+            return False
+
     def total_votes(self):
         return self.upvotes.count() - self.downvotes.count()
 
