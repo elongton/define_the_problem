@@ -2,10 +2,7 @@
 
 
 {% block content %}
-  <div class="jumbotron">
-    {% if problem.has_root %}
-    <div class="has_root">Has Root</div>
-    {%endif%}
+  <div class="jumbotron problem_jumbo">
     <div class="detailproblem_item">
       <div class="list_upvotediv">
         <a class = "{% if user in problem.upvotes.all %}voted{%endif%}" {% if user.is_authenticated %} href="{% url 'problems:detailupvote' pk=problem.pk %}" {% else %} href="{% url "users:login" %}" {% endif %}>
@@ -28,23 +25,12 @@
         <h5>Author: <strong>{% if problem.anonymous_author %}anonymous{% else %}{{problem.author}}{%endif%}</strong></h5>
       </div>
     </div>
+    <a class="btn btn-primary btn-addwhy" {% if user.is_authenticated %} href="" {% else %} href="{% url "users:login" %}" {% endif %}>Add Why <i class="fa fa-question-circle" aria-hidden="true"></i></a>
   </div><!-- jumbotron -->
-
-  {% if problem.root_problem %}Root: {{problem.root_problem.text}}<br>{% endif %}
-  {% if problem.sub_problems %}
-    {%for sub in problem.sub_problems.all %}
-      Subproblem: {{sub.text}}
-    {%endfor%}
-    <br><br>
-  {%endif%}
-
 
 
 <a class=" btn btn-primary btn-comment" {% if user.is_authenticated %} href="{% url "problems:createcomment" pk=problem.pk %}"{% else %} href="{% url "users:login" %}" {% endif %}>Add Comment</a>
-&nbsp;
-<a class=" btn btn-primary btn-root" {% if user.is_authenticated %} href="{% url "problems:create" pk=problem.pk %}"{% else %} href="{% url "users:login" %}" {% endif %}>Add Root Problem</a>
-&nbsp;
-<a class=" btn btn-primary btn-root" {% if user.is_authenticated %} href="{% url "problems:create" pk=problem.pk %}"{% else %} href="{% url "users:login" %}" {% endif %}>Why?</a>
+
 <br><br>
 {% if problem.comments.all.count > 0 %}
 <div class="conversation">

@@ -18,6 +18,10 @@ div.register_field{margin-bottom: 10px;}
 .subjumboproblem{margin-left: 50px; margin-top: 15px;}
 
 /*DETAIL AND LIST VIEW*/
+
+div.problem_jumbo{position: relative;}
+a.btn-addwhy{position: absolute; right: 20px; bottom: 20px;}
+
 div.list_upvotediv{
   text-align: center;
   width: 50px;

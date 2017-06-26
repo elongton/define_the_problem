@@ -39,7 +39,8 @@ class Problem(models.Model):
         return str(self.text)
 
 class Comment(models.Model):
-    problem = models.ForeignKey('problems.Problem', related_name='comments')
+    problem = models.ForeignKey('problems.Problem', related_name='comments', null=True)
+    why = models.ForeignKey('problems.Why', related_name='comments', null=True)
     author = models.ForeignKey(User)
     text = models.TextField()
     create_date = models.DateTimeField(default=timezone.now)
@@ -82,3 +83,12 @@ class Reply(models.Model):
 
     class Meta:
         verbose_name_plural = "replies"
+
+class Why(models.Model):
+    problem = models.ForeignKey('problems.Problem', related_name='whys', null=True)
+    text = models.TextField()
+    create_date = models.DateTimeField(default=timezone.now)
+    upvotes = models.ManyToManyField(User, related_name='why_upvotes')
+    downvotes = models.ManyToManyField(User, related_name='why_downvotes')
+    why_requests=models.ManyToManyField(User)
+    depth = models.IntegerField(default=0)
