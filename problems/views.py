@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (View, TemplateView,
                                   CreateView, DetailView,
                                   ListView)
-from problems.forms import ProblemForm, CommentForm, ReplyForm
+from problems.forms import ProblemForm, CommentForm, ReplyForm, WhyForm
 from . import models
 from operator import itemgetter, attrgetter
 
@@ -84,6 +84,22 @@ def index_topsix(request):
     problems=x
     return render(request,'sitewide/index.html',{'problems':problems})
 
+def request_why(request,pk,type):
+    print('success')
+    if type == '1':
+        object = get_object_or_404(models.Problem, pk=pk)
+    else:
+        object = get_object_or_404(models.Why, pk=pk)
+    user = request.user
+
+    if object.why_requests.filter(id=user.id).exists():
+        object.why_requests.remove(user)
+    else:
+        object.why_requests.add(user)
+    if type == '1':
+        return redirect('problems:problem_detail', pk=object.pk)
+    else:
+        return redirect('problems:problem_detail', pk=object.problem.pk)
 
 def index_upvote(request,pk):
     upvote_problem(request,pk)
@@ -186,7 +202,6 @@ def add_reply_to_comment(request,pk):
 @login_required
 def add_comment_to_problem(request,pk):
     problem = get_object_or_404(models.Problem,pk=pk)
-    print(problem.pk)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -198,3 +213,20 @@ def add_comment_to_problem(request,pk):
     else:
         form = CommentForm()
     return render(request,'problems/comment_add.html',{'form':form, 'problem':problem})
+
+
+
+@login_required
+def add_why_to_problem(request,pk):
+    problem = get_object_or_404(models.Problem,pk=pk)
+    if request.method == 'POST':
+        form = WhyForm(request.POST)
+        if form.is_valid():
+            why = form.save(commit=False)
+            why.problem = problem
+            why.author = request.user
+            comment.save()
+            return redirect('problems:problem_detail',pk=problem.pk)
+    else:
+        form = WhyForm()
+    return render(request,'problems/why_add.html',{'form':form, 'problem':problem})

@@ -15,12 +15,14 @@ div.register_field{margin-bottom: 10px;}
 
 
 /*ADD VIEW*/
-.subjumboproblem{margin-left: 50px; margin-top: 15px;}
+.subjumbowhy{margin-left: 50px; margin-top: 15px;}
 
 /*DETAIL AND LIST VIEW*/
 
-div.problem_jumbo{position: relative;}
-a.btn-addwhy{position: absolute; right: 20px; bottom: 20px;}
+div.problem_jumbo{position: relative; padding-left: 30px!important;}
+div.btn-addwhy{position: absolute; right: 20px; bottom: 20px;}
+a.btn-problem-comment{position: absolute; bottom: 20px; margin-left: 50px;}
+
 
 div.list_upvotediv{
   text-align: center;
@@ -41,12 +43,13 @@ a.problem_link{
  .detailproblem_description{
   display: inline-block;
   vertical-align: top;
-  width: calc(100% - 70px);}
+  width: calc(100% - 70px);
+  margin-bottom: 30px;}
 .detailproblem_description h3{margin-top: 10px;}
 .detailproblem_item{}
 
 .app_submit{margin-top: 10px;}
-.conversation{margin-left: 10px;}
+.problem_conversation{margin-left: 10px;}
 
 /*INDEX VIEW*/
 div.index_problemdiv{

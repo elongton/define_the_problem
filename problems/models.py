@@ -10,11 +10,15 @@ class Problem(models.Model):
     anonymous_author = models.BooleanField(default=False)
     root_problem = models.ForeignKey('self', related_name='sub_problems', null=True)
     # subproblem = models.ForeignKey('self', related_name='rootproblem')
+    why_requests = models.ManyToManyField(User, related_name='problem_why_requests')
     text = models.TextField()
     create_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
     upvotes = models.ManyToManyField(User, related_name='upvotes')
     downvotes = models.ManyToManyField(User, related_name='downvotes')
+
+    def total_whys(self):
+        return self.why_requests.count()
 
     def has_root(self):
         if self.root_problem:
@@ -86,6 +90,7 @@ class Reply(models.Model):
 
 class Why(models.Model):
     problem = models.ForeignKey('problems.Problem', related_name='whys', null=True)
+    author = models.ForeignKey(User, related_name='why_author', null=True)
     text = models.TextField()
     create_date = models.DateTimeField(default=timezone.now)
     upvotes = models.ManyToManyField(User, related_name='why_upvotes')

@@ -1,6 +1,6 @@
 from django import forms
 
-from problems.models import Problem, Comment, Reply
+from problems.models import Problem, Comment, Reply, Why
 
 
 class ProblemForm(forms.ModelForm):
@@ -19,4 +19,9 @@ class CommentForm(forms.ModelForm):
 class ReplyForm(forms.ModelForm):
     class Meta():
         model = Reply
+        fields = ('text',)
+
+class WhyForm(forms.ModelForm):
+    class Meta():
+        model = Why
         fields = ('text',)

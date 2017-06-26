@@ -24,16 +24,29 @@
         <h3>{{problem.text}}</h3>
         <h5>Author: <strong>{% if problem.anonymous_author %}anonymous{% else %}{{problem.author}}{%endif%}</strong></h5>
       </div>
+
     </div>
-    <a class="btn btn-primary btn-addwhy" {% if user.is_authenticated %} href="" {% else %} href="{% url "users:login" %}" {% endif %}>Add Why <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+    <a class="btn btn-primary btn-problem-comment" {% if user.is_authenticated %} href="{% url "problems:createcomment" pk=problem.pk %}"{% else %} href="{% url "users:login" %}" {% endif %}>Add Comment</a>
+
+    <!-- request and add why button -->
+    {% if user == problem.author %} <!--if the user is the author-->
+      <div class="btn-addwhy">
+        <a class="btn btn-success" {% if user.is_authenticated %} href="{% url "problems:createwhy" pk=problem.pk%}" {% else %} href="{% url "users:login" %}" {% endif %}>Add Why <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+        {{problem.total_whys}}
+      </div>
+    {% else %}  <!--if the user is NOT the author-->
+      <div class="btn-addwhy">
+        <a class="btn {% if user in problem.why_requests.all %} btn-warning {% else %} btn-primary {% endif %} btn-addwhy" {% if user.is_authenticated %}
+        href="{% url "problems:requestwhy" pk=problem.pk type='1' %}" {% else %} href="{% url "users:login" %}" {% endif %}>
+        {% if user in problem.why_requests.all %} Why Requested {% else %}Request Why {% endif %}
+        <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+        {{problem.total_whys}}
+      </div>
+    {% endif %}
+
   </div><!-- jumbotron -->
-
-
-<a class=" btn btn-primary btn-comment" {% if user.is_authenticated %} href="{% url "problems:createcomment" pk=problem.pk %}"{% else %} href="{% url "users:login" %}" {% endif %}>Add Comment</a>
-
-<br><br>
 {% if problem.comments.all.count > 0 %}
-<div class="conversation">
+<div class="problem_conversation">
   {% for comment in problem.comments.all %}
     <strong>{{comment.author}}</strong>: {{comment.text}}
     <br>
@@ -67,7 +80,13 @@
     </div>
     {% endfor %}
   {% endfor%}
-</div>
+</div><!-- problem_conversation -->
 {% endif %}
+
+
+
+
+
+
 
 {% endblock %}
