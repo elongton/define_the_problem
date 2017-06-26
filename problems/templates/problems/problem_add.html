@@ -4,11 +4,11 @@
 {% block content %}
 
 {% if pk == '0' %}
-  <h1>Describe the problem</h1>
+  <h1>Describe the problem:</h1>
   <div class="problemform">
     <form method="POST">
       {% csrf_token %}
-        {{ form.text|add_class:"form-control"|attr:"placeholder:Describe the problem"}}
+        {{ form.text|add_class:"form-control"|attr:"placeholder:I keep sleeping through my alarm in the morning."}}
       <div class="row">
         <div class="col-sm-12">
           <input type="submit" class='btn btn-primary app_submit' value=Submit>
