@@ -192,7 +192,7 @@ def like_reply(request,pk):
     return redirect('problems:problem_detail',pk=reply.comment.problem.pk)
 
 @login_required
-def add_reply_to_reply(request,pk):
+def add_reply_to_reply(request,pk,type):
     base_reply = get_object_or_404(models.Reply,pk=pk)
     if request.method == 'POST':
         form = ReplyForm(request.POST)
@@ -207,7 +207,7 @@ def add_reply_to_reply(request,pk):
     return render(request,'problems/reply_add.html',{'form':form, 'reply':base_reply})
 
 @login_required
-def add_reply_to_comment(request,pk):
+def add_reply_to_comment(request,pk,type):
     comment = get_object_or_404(models.Comment,pk=pk)
     print(comment.pk)
     if request.method == 'POST':
@@ -223,19 +223,26 @@ def add_reply_to_comment(request,pk):
     return render(request,'problems/reply_add.html',{'form':form, 'comment':comment})
 
 @login_required
-def add_comment_to_problem(request,pk):
+def add_comment(request,pk,type):
     problem = get_object_or_404(models.Problem,pk=pk)
+    if int(type) != 0:
+        why = get_object_or_404(models.Why, pk=type)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
+            if int(type) != 0:
+                comment.why = why
             comment.problem = problem
             comment.author = request.user
             comment.save()
             return redirect('problems:problem_detail',pk=problem.pk)
     else:
         form = CommentForm()
-    return render(request,'problems/comment_add.html',{'form':form, 'problem':problem})
+    if int(type) != 0:
+        return render(request,'problems/comment_add.html',{'form':form, 'problem':problem, 'why':why})
+    else:
+        return render(request,'problems/comment_add.html',{'form':form, 'problem':problem})
 
 
 

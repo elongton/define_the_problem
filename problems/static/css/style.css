@@ -18,6 +18,7 @@ div.register_field{margin-bottom: 10px;}
 div.problem_jumbo{position: relative; padding-left: 30px!important;}
 div.btn-addwhy{position: absolute; right: 20px; bottom: 20px;}
 a.btn-problem-comment{position: absolute; bottom: 20px; margin-left: 50px;}
+a.btn-why-comment{position: absolute; bottom: 20px; left: 50px; margin-left: 30px;}
 div.why_marker{display: inline-block;}
 
 
