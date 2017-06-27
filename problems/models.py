@@ -17,7 +17,7 @@ class Problem(models.Model):
     upvotes = models.ManyToManyField(User, related_name='upvotes')
     downvotes = models.ManyToManyField(User, related_name='downvotes')
 
-    def total_whys(self):
+    def total_why_requests(self):
         return self.why_requests.count()
 
     def has_root(self):
@@ -91,9 +91,14 @@ class Reply(models.Model):
 class Why(models.Model):
     problem = models.ForeignKey('problems.Problem', related_name='whys', null=True)
     author = models.ForeignKey(User, related_name='why_author', null=True)
+    has_descendent = models.BooleanField(default=False)
     text = models.TextField()
     create_date = models.DateTimeField(default=timezone.now)
     upvotes = models.ManyToManyField(User, related_name='why_upvotes')
     downvotes = models.ManyToManyField(User, related_name='why_downvotes')
     why_requests=models.ManyToManyField(User)
     depth = models.IntegerField(default=0)
+
+
+    def total_votes(self):
+        return self.upvotes.count() - self.downvotes.count()

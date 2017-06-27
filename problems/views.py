@@ -119,8 +119,6 @@ def detail_upvote(request,pk):
 def detail_downvote(request,pk):
     problem = downvote_problem(request,pk)
     return redirect('problems:problem_detail',pk=problem.pk)
-
-
 def upvote_problem(request,pk):
     problem = get_object_or_404(models.Problem,pk=pk)
     user=request.user
@@ -133,7 +131,6 @@ def upvote_problem(request,pk):
         problem.upvotes.add(user)
     print(problem.upvotes.all())
     return problem
-
 def downvote_problem(request,pk):
     problem = get_object_or_404(models.Problem,pk=pk)
     user=request.user
@@ -145,6 +142,32 @@ def downvote_problem(request,pk):
     else:
         problem.downvotes.add(user)
     return problem
+
+
+def upvote_why(request,pk):
+    why = get_object_or_404(models.Why,pk=pk)
+    user=request.user
+    if why.upvotes.filter(id=user.id).exists():
+        why.upvotes.remove(user)
+    elif why.downvotes.filter(id=user.id).exists():
+        why.downvotes.remove(user)
+        why.upvotes.add(user)
+    else:
+        why.upvotes.add(user)
+    print(why.upvotes.all())
+    return redirect('problems:problem_detail', pk=why.problem.pk)
+def downvote_why(request,pk):
+    why = get_object_or_404(models.Why,pk=pk)
+    user=request.user
+    if why.downvotes.filter(id=user.id).exists():
+        why.downvotes.remove(user)
+    elif why.upvotes.filter(id=user.id).exists():
+        why.upvotes.remove(user)
+        why.downvotes.add(user)
+    else:
+        why.downvotes.add(user)
+    return redirect('problems:problem_detail', pk=why.problem.pk)
+
 
 
 @login_required

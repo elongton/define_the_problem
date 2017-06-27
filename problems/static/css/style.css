@@ -18,12 +18,20 @@ div.register_field{margin-bottom: 10px;}
 div.problem_jumbo{position: relative; padding-left: 30px!important;}
 div.btn-addwhy{position: absolute; right: 20px; bottom: 20px;}
 a.btn-problem-comment{position: absolute; bottom: 20px; margin-left: 50px;}
+div.why_marker{display: inline-block;}
 
 
-.subjumbowhy{width: calc(100% - 100px); margin-top: 15px; display:inline-block; margin-top: 0;}
-div.whytext{display: inline-block; width: 95px; vertical-align: top;}
+.subjumbowhy{width: calc(100% - 100px);
+  margin-top: 15px;
+  display:inline-block;
+  margin-top: 0;
+  padding-left: 30px!important;
+  position: relative;}
+div.whytext{display: inline-block; width: 95px; vertical-align: top; margin-top: 10px;}
 div.whytext h3{margin-top: 0;}
 div.whydiv{margin-top: 20px;}
+/*div.why_description{vertical-align: middle;}*/
+div.why_upvotediv{vertical-align: middle;}
 
 
 div.list_upvotediv{

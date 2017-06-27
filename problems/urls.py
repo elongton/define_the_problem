@@ -22,4 +22,7 @@ urlpatterns = [
     url(r'^problem/(?P<pk>\d+)/detaildownvote/$', views.detail_downvote, name='detaildownvote'),
     url(r'^problem/(?P<pk>\d+)/(?P<type>\d+)/requestwhy/$', views.request_why, name='requestwhy'),
 
+    url(r'^problem/(?P<pk>\d+)/whyupvote/$', views.upvote_why, name='whyupvote'),
+    url(r'^problem/(?P<pk>\d+)/whydownvote/$', views.downvote_why, name='whydownvote'),
+
 ]
