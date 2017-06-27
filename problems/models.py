@@ -44,6 +44,7 @@ class Problem(models.Model):
 
 class Comment(models.Model):
     problem = models.ForeignKey('problems.Problem', related_name='comments', null=True)
+    is_problem_comment = models.BooleanField(default = True)
     why = models.ForeignKey('problems.Why', related_name='comments', null=True)
     author = models.ForeignKey(User)
     text = models.TextField()

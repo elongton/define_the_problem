@@ -232,6 +232,7 @@ def add_comment(request,pk,type):
         if form.is_valid():
             comment = form.save(commit=False)
             if int(type) != 0:
+                comment.is_problem_comment = False
                 comment.why = why
             comment.problem = problem
             comment.author = request.user

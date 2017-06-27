@@ -61,37 +61,39 @@
 {% if problem.comments.all.count > 0 %}
   <div class="problem_conversation">
   {% for comment in problem.comments.all %}
-    <strong>{{comment.author}}</strong>: {{comment.text}}
-    <br>
-
-    {% if user.is_authenticated %}
-      <a href="{% url 'problems:likecomment' pk=comment.pk %}">
-        {% if user in comment.likes.all %}Unlike{% else %}Like{% endif %}
-      </a>
-    {% else %}
-    <span class="glyphicon glyphicon-thumbs-up"></span>
-    {% endif %}
-
-
-    <!-- ********PROBLEM REPLIES********* -->
-    &nbsp;{{comment.total_likes}}&nbsp;&nbsp;
-    <a {% if user.is_authenticated %} href="{% url 'problems:createreply' pk=comment.pk type=0%}" {% else %} href="{% url "users:login" %}" {% endif %}>Reply</a>
-    <br>
-    {% for reply in comment.replies.all %}
-    <div id="replydiv">
-      <strong>{{reply.author}}</strong>: {{reply.text}}
+    {% if comment.is_problem_comment == True %}
+      <strong>{{comment.author}}</strong>: {{comment.text}}
       <br>
+
       {% if user.is_authenticated %}
-        <a href="{% url 'problems:likereply' pk=reply.pk %}">
-          {% if user in reply.likes.all %}Unlike{% else %}Like{% endif %}
+        <a href="{% url 'problems:likecomment' pk=comment.pk %}">
+          {% if user in comment.likes.all %}Unlike{% else %}Like{% endif %}
         </a>
       {% else %}
-        <span class="glyphicon glyphicon-thumbs-up"></span>
+      <span class="glyphicon glyphicon-thumbs-up"></span>
       {% endif %}
-      &nbsp;{{reply.total_likes}}&nbsp;&nbsp;
-      <a {% if user.is_authenticated %} href="{% url 'problems:createreplyreply' pk=reply.pk type=0%}" {% else %} href="{% url "users:login" %}" {% endif %}>Reply</a>
-    </div>
-    {% endfor %}
+
+
+      <!-- ********PROBLEM REPLIES********* -->
+      &nbsp;{{comment.total_likes}}&nbsp;&nbsp;
+      <a {% if user.is_authenticated %} href="{% url 'problems:createreply' pk=comment.pk type=0%}" {% else %} href="{% url "users:login" %}" {% endif %}>Reply</a>
+      <br>
+      {% for reply in comment.replies.all %}
+      <div id="replydiv">
+        <strong>{{reply.author}}</strong>: {{reply.text}}
+        <br>
+        {% if user.is_authenticated %}
+          <a href="{% url 'problems:likereply' pk=reply.pk %}">
+            {% if user in reply.likes.all %}Unlike{% else %}Like{% endif %}
+          </a>
+        {% else %}
+          <span class="glyphicon glyphicon-thumbs-up"></span>
+        {% endif %}
+        &nbsp;{{reply.total_likes}}&nbsp;&nbsp;
+        <a {% if user.is_authenticated %} href="{% url 'problems:createreplyreply' pk=reply.pk type=0%}" {% else %} href="{% url "users:login" %}" {% endif %}>Reply</a>
+      </div>
+      {% endfor %}
+    {% endif %}
   {% endfor%}
 </div><!-- problem_conversation -->  <!--Problem Comments -->
 {% endif %}
@@ -158,7 +160,7 @@
 
         <!-- WHY COMMENTS -->
         {% if why.comments.all.count > 0 %}
-          <div class="problem_conversation">
+          <div class="why_conversation">
           {% for comment in why.comments.all %}
             <strong>{{comment.author}}</strong>: {{comment.text}}
             <br>
@@ -182,7 +184,7 @@
               <strong>{{reply.author}}</strong>: {{reply.text}}
               <br>
               {% if user.is_authenticated %}
-                <a href="{% url 'problems:likereply' pk=reply.pk type=why.pk%}">
+                <a href="{% url 'problems:likereply' pk=reply.pk%}">
                   {% if user in reply.likes.all %}Unlike{% else %}Like{% endif %}
                 </a>
               {% else %}
@@ -197,7 +199,7 @@
         {% endif %}
 
     {% endfor %} <!--END WHY FOR-->
-  </div>
+  </div><!--whydivs -->
 {% endif %}
 
 
