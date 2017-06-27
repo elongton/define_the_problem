@@ -56,6 +56,20 @@
       </div><!--btn-addwhy-->
     {% endif %}
 
+
+    <!--********PROBLEM WEIGHT DIV *************-->
+    <div class="detail_problem_weight">
+      <div id='problem_score_title' class=''>
+        Problem Score
+      </div>
+      <div id="problem_score_votes">
+       {{problem.overall_votes}}
+      </div>
+
+    </div>
+
+
+
   </div><!-- jumbotron -->
 <!-- PROBLEM COMMENTS -->
 {% if problem.comments.all.count > 0 %}

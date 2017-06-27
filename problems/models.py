@@ -17,6 +17,16 @@ class Problem(models.Model):
     upvotes = models.ManyToManyField(User, related_name='upvotes')
     downvotes = models.ManyToManyField(User, related_name='downvotes')
 
+
+    def overall_votes(self):
+        upvotelist = self.upvotes.all()
+        downvotelist = self.downvotes.all()
+        if self.whys.count() > 0:
+            for why in self.whys.all():
+                upvotelist = list(set(list(upvotelist) + list(why.upvotes.all())))
+                downvotelist = list(set(list(downvotelist) + list(why.downvotes.all())))
+        return len(upvotelist) - len(downvotelist)
+
     def total_why_requests(self):
         return self.why_requests.count()
 

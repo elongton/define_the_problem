@@ -55,6 +55,16 @@ class ProblemDetailView(DetailView):
     model = models.Problem
     context_object_name = 'problem'
     template_name = 'problems/problem_detail.html'
+    # def get_context_data(self, **kwargs):
+    #     ctx = super(ProblemDetailView, self).get_context_data(**kwargs)
+    #     problem = get_object_or_404(models.Problem,pk=int(self.kwargs['pk']))
+    #     upvotelist = problem.upvotes.all()
+    #     if problem.whys.count() > 0:
+    #         for why in problem.whys.all():
+    #             upvotelist = list(set(list(upvotelist) + list(why.upvotes.all())))
+    #     ctx['overall_upvotes'] = len(upvotelist)
+    #     ctx['problem'] = problem
+    #     return ctx
 
 class ProblemListView(ListView):
     model = models.Problem

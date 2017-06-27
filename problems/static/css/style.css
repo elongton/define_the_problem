@@ -21,6 +21,27 @@ a.btn-problem-comment{position: absolute; bottom: 20px; margin-left: 50px;}
 a.btn-why-comment{position: absolute; bottom: 20px; left: 50px; margin-left: 30px;}
 div.why_marker{display: inline-block;}
 
+div.detail_problem_weight{
+  position: fixed;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: #eee;
+  top: 100px;
+  left: 0px;
+}
+    div#problem_score_title{
+      width: 150px;
+      text-align: center;
+      padding-top: 5px;
+      font-size: 15px;
+    }
+    div#problem_score_votes{
+      width: 150px;
+      margin-top: -5px;
+      text-align: center;
+      font-size: 50px;
+    }
+
 
 .subjumbowhy{width: calc(100% - 100px);
   margin-top: 15px;
@@ -84,3 +105,9 @@ div.index_problemauthor{
   position: absolute;
   right: 20px;
   bottom: 15px;}
+div.index_problemwhys{
+  text-align: left;
+  position: absolute;
+  left: 20px;
+  bottom: 15px;
+}

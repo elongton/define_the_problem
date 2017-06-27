@@ -4,11 +4,7 @@
 {% block content %}
   <h4>“If I were given one hour to save the planet, I would spend 59 minutes defining the problem and one minute resolving it."</h4>
   <h4>-Albert Einstein</h4>
-
-
   <hr>
-
-
   <h2>Top Problems</h2>
 
   <div class="row">
@@ -40,12 +36,15 @@
                 <br>
                 added by: {% if problem.0.anonymous_author %}anonymous{% else %}{{problem.0.author}}{%endif%}
               </div>
+              {% if problem.0.whys.count > 0 %}
+                <div class="index_problemwhys">
+                  Whys x {{problem.0.whys.count}}
+                </div>
+              {% endif %}
             </div><!-- index_problemdescription -->
           </a>
         </div><!-- index_problemborder -->
     </div><!--index_problemdiv -->
   {% endfor %}
   </div><!-- row -->
-
-
 {% endblock %}
