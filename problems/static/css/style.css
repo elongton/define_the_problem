@@ -13,15 +13,17 @@ a.voted{color: orange;}
 /*REGISTER PAGE*/
 div.register_field{margin-bottom: 10px;}
 
-
-/*ADD VIEW*/
-.subjumbowhy{margin-left: 50px; margin-top: 15px;}
-
 /*DETAIL AND LIST VIEW*/
 
 div.problem_jumbo{position: relative; padding-left: 30px!important;}
 div.btn-addwhy{position: absolute; right: 20px; bottom: 20px;}
 a.btn-problem-comment{position: absolute; bottom: 20px; margin-left: 50px;}
+
+
+.subjumbowhy{width: calc(100% - 100px); margin-top: 15px; display:inline-block; margin-top: 0;}
+div.whytext{display: inline-block; width: 95px; vertical-align: top;}
+div.whytext h3{margin-top: 0;}
+div.whydiv{margin-top: 20px;}
 
 
 div.list_upvotediv{

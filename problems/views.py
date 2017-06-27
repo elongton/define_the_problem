@@ -225,7 +225,7 @@ def add_why_to_problem(request,pk):
             why = form.save(commit=False)
             why.problem = problem
             why.author = request.user
-            comment.save()
+            why.save()
             return redirect('problems:problem_detail',pk=problem.pk)
     else:
         form = WhyForm()

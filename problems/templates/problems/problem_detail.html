@@ -46,7 +46,7 @@
 
   </div><!-- jumbotron -->
 {% if problem.comments.all.count > 0 %}
-<div class="problem_conversation">
+  <div class="problem_conversation">
   {% for comment in problem.comments.all %}
     <strong>{{comment.author}}</strong>: {{comment.text}}
     <br>
@@ -84,8 +84,24 @@
 {% endif %}
 
 
+{% if problem.whys.all.count > 0 %}
+
+  <div class="whydivs">
+    {% for why in problem.whys.all %}
+    <div class="whydiv">
+      <div class="whytext">
+        <h3>Why?(1)</h3>
+      </div><!--whytext-->
+      <div class="subjumbowhy jumbotron">
+        <h3>{{why.text}}</h3>
+      </div><!--subjumbowhy -->
+    </div><!-- whydiv -->
+    {% endfor %}
+
+  </div>
 
 
+{% endif %}
 
 
 
