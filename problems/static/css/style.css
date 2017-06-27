@@ -5,6 +5,8 @@
 .blue{background-color: blue;}
 .green{background-color: green;}
 .box{height: 200px;}
+.table_parent {display: table;}
+.table_child {display: table-cell; vertical-align: middle;}
 
 /*MODIFIERS*/
 a.voted{color: orange;}
@@ -85,6 +87,23 @@ a.problem_link{
 .why_conversation{margin-left: 100px;}
 
 /*INDEX VIEW*/
+
+
+
+div.index_overall_votes{
+  width: 60px;
+  height: 60px;
+  background-color: #eee;
+  display: inline-block;
+  border-radius: 10px;
+  margin-left: 10px;
+  text-align: center;
+}
+div.index_overall_votes div{height: 60px;
+  width: 60px;
+  font-size: 25px;
+  color: grey;}
+
 div.index_problemdiv{
   padding: 10px;
 }
@@ -96,9 +115,10 @@ div.index_problemborder{
   padding-left: 0px;}
 
 div.index_problemdescription{
-  width: calc(100% - 70px);
+  width: calc(100% - 80px);
   display: inline-block;
   vertical-align: top;
+  margin-left: 5px;
 }
 div.index_problemauthor{
   text-align: right;

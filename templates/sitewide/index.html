@@ -13,21 +13,15 @@
     <div class="col-lg-4 col-md-4 col-sm-6 box index_problemdiv">
 
         <div class="index_problemborder">
-          <div class="list_upvotediv">
-            <a class = "{% if user in problem.0.upvotes.all %}voted{%endif%}" {% if user.is_authenticated %} href="{% url 'problems:indexupvote' pk=problem.0.pk %}" {% else %} href="{% url "users:login" %}" {% endif %}>
-              <div class="sub_upvotediv">
-                  <span class="glyphicon glyphicon-menu-up ticker"></span>
-              </div>
-            </a>
-            <div class="sub_upvotediv">
-              <span>{{problem.0.total_votes}}</span>
-            </div>
-            <a class = "{% if user in problem.0.downvotes.all %}voted{%endif%}" {% if user.is_authenticated %} href="{% url 'problems:indexdownvote' pk=problem.0.pk %}" {% else %} href="{% url "users:login" %}" {% endif %}>
-              <div class="sub_upvotediv">
-                <span class="glyphicon glyphicon-menu-down ticker"></span>
-              </div>
-            </a>
-          </div><!-- list_upvotediv -->
+
+          <div class="index_overall_votes table_parent">
+            <div class="table_child">{%if problem.0.overall_votes > 0 %}+{%endif%}{{problem.0.overall_votes}}</div>
+          </div>
+
+
+
+
+
           <a href="{% url 'problems:problem_detail' pk=problem.0.pk %}">
             <div class="index_problemdescription">
               <h4>{{problem.0.text}}</h4>
