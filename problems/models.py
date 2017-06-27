@@ -96,9 +96,15 @@ class Why(models.Model):
     create_date = models.DateTimeField(default=timezone.now)
     upvotes = models.ManyToManyField(User, related_name='why_upvotes')
     downvotes = models.ManyToManyField(User, related_name='why_downvotes')
-    why_requests=models.ManyToManyField(User)
+    why_requests = models.ManyToManyField(User)
     depth = models.IntegerField(default=0)
 
 
+    def total_why_requests(self):
+        return self.why_requests.count()
+
     def total_votes(self):
         return self.upvotes.count() - self.downvotes.count()
+
+    def __str__(self):
+        return self.text

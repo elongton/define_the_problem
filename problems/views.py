@@ -92,10 +92,10 @@ def request_why(request,pk,type):
         object = get_object_or_404(models.Why, pk=pk)
     user = request.user
 
-    if object.why_requests.filter(id=user.id).exists():
-        object.why_requests.remove(user)
-    else:
-        object.why_requests.add(user)
+    # if object.why_requests.filter(id=user.id).exists():
+    #     object.why_requests.remove(user)
+    # else:
+    object.why_requests.add(user)
     if type == '1':
         return redirect('problems:problem_detail', pk=object.pk)
     else:
@@ -240,8 +240,11 @@ def add_comment_to_problem(request,pk):
 
 
 @login_required
-def add_why_to_problem(request,pk):
+def add_why_to_problem(request,pk,ansc):
     problem = get_object_or_404(models.Problem,pk=pk)
+    if int(ansc) != 0:
+        print("it's true!")
+        whyansc = get_object_or_404(models.Why, pk=int(ansc))
     if request.method == 'POST':
         form = WhyForm(request.POST)
         if form.is_valid():
@@ -249,6 +252,10 @@ def add_why_to_problem(request,pk):
             why.problem = problem
             why.author = request.user
             why.save()
+            if int(ansc) != 0:
+                whyansc.has_descendent = True
+                print(whyansc.has_descendent)
+                whyansc.save()
             return redirect('problems:problem_detail',pk=problem.pk)
     else:
         form = WhyForm()
