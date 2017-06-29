@@ -11,7 +11,7 @@
 
   {% for problem in problems %}
     <div class="col-lg-4 col-md-4 col-sm-6 box index_problemdiv">
-
+      <a href="{% url 'problems:problem_detail' pk=problem.0.pk %}">
         <div class="index_problemborder">
 
           <div class="index_overall_votes table_parent">
@@ -22,7 +22,7 @@
 
 
 
-          <a href="{% url 'problems:problem_detail' pk=problem.0.pk %}">
+
             <div class="index_problemdescription">
               <h4>{{problem.0.text}}</h4>
               <div class="index_problemauthor">
@@ -36,8 +36,9 @@
                 </div>
               {% endif %}
             </div><!-- index_problemdescription -->
-          </a>
+
         </div><!-- index_problemborder -->
+      </a>
     </div><!--index_problemdiv -->
   {% endfor %}
   </div><!-- row -->
