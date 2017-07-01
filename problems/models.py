@@ -8,15 +8,12 @@ from django.dispatch import receiver
 class Problem(models.Model):
     author = models.ForeignKey(User)
     anonymous_author = models.BooleanField(default=False)
-    root_problem = models.ForeignKey('self', related_name='sub_problems', null=True)
-    # subproblem = models.ForeignKey('self', related_name='rootproblem')
+    problem = models.ForeignKey('self',related_name='problems', null=True)
     why_requests = models.ManyToManyField(User, related_name='problem_why_requests')
     text = models.TextField()
     create_date = models.DateTimeField(default=timezone.now)
-    published_date = models.DateTimeField(blank=True, null=True)
     upvotes = models.ManyToManyField(User, related_name='upvotes')
     downvotes = models.ManyToManyField(User, related_name='downvotes')
-
 
     def overall_votes(self):
         upvotelist = self.upvotes.all()
