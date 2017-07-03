@@ -26,32 +26,35 @@
       </div>
 
     </div>
-    <!--********ADD COMMENT TO PROBLEM BUTTON *************-->
-    <a class="btn btn-primary btn-problem-comment" {% if user.is_authenticated %} href="{% url "problems:createcomment" pk=problem.pk type=0 %}"{% else %} href="{% url "users:login" %}" {% endif %}>Add Comment</a>
 
     <!-- request and add why button -->
     {% if user == problem.author %} <!--if the user is the author-->
       <div class="btn-addwhy">
         {% if problem.whys.all.count > 0 %}
-          <div class="why_marker btn btn-primary"><i class="fa fa-question-circle" aria-hidden="true"></i></div>
-          {{problem.total_why_requests}}
+          <div class="why_marker btn btn-primary"></div>
+          {{problem.total_root_requests}}
         {% else %}
-          <a class="btn btn-success" {% if user.is_authenticated %} href="{% url "problems:createwhy" pk=problem.pk ansc=0%}" {% else %} href="{% url "users:login" %}" {% endif %}>Add Why <i class="fa fa-question-circle" aria-hidden="true"></i></a>
-          {{problem.total_why_requests}}
+          <a class="btn btn-success" {% if user.is_authenticated %} href="" {% else %} href="{% url "users:login" %}" {% endif %}>Add Root</a>
+          {{problem.total_root_requests}} Root Requests
         {% endif %}
       </div>
     {% else %}  <!--if the user is NOT the author-->
       <div class="btn-addwhy">
         {% if problem.whys.all.count > 0 %}
           <div class="why_marker btn btn-primary"><i class="fa fa-question-circle" aria-hidden="true"></i></div>
-          {{problem.total_why_requests}}
-        {% else %}
+          {{problem.total_root_requests}}
 
-            <a class="btn {% if user in problem.why_requests.all %} btn-warning {% else %} btn-primary {% endif %} btn-addwhy" {% if user.is_authenticated %}
-            href="{% url "problems:requestwhy" pk=problem.pk type='1' %}" {% else %} href="{% url "users:login" %}" {% endif %}>
-            {% if user in problem.why_requests.all %} Why Requested {% else %}Request Why {% endif %}
-            <i class="fa fa-question-circle" aria-hidden="true"></i></a>
-            {{problem.total_why_requests}}
+
+        {% else %} <!-- user is not the author of the problem -->
+            <!-- non-author Add Root Button -->
+            <a class="btn btn-success" {% if user.is_authenticated %} href="" {% else %}
+            href="{% url "users:login" %}" {% endif %}>Add Root</a>
+            <!-- non-author Request Root Button -->
+            <a class="btn {% if user in problem.root_requests.all %} btn-warning {% else %} btn-primary {% endif %} btn-addwhy" {% if user.is_authenticated %}
+            href="" {% else %} href="{% url "users:login" %}" {% endif %}>
+            {% if user in problem.root_requests.all %} Why Requested {% else %}Request Root {% endif %}
+            </a>
+            {{problem.total_root_requests}}
         {% endif %}
       </div><!--btn-addwhy-->
     {% endif %}
@@ -67,11 +70,18 @@
       </div>
 
     </div>
-
-
-
   </div><!-- jumbotron -->
-<!-- PROBLEM COMMENTS -->
+
+
+
+
+
+
+<!-- COMMENT SECTION -->
+<hr>
+<!--BUTTON-->
+<a class="btn btn-primary btn-problem-comment" {% if user.is_authenticated %} href="{% url "problems:createcomment" pk=problem.pk type=0 %}"{% else %} href="{% url "users:login" %}" {% endif %}>Add Comment</a>
+<!--COMMENTS -->
 {% if problem.comments.all.count > 0 %}
   <div class="problem_conversation">
   {% for comment in problem.comments.all %}
@@ -110,110 +120,6 @@
     {% endif %}
   {% endfor%}
 </div><!-- problem_conversation -->  <!--Problem Comments -->
-{% endif %}
-
-<!-- WHY SECTION-->
-{% if problem.whys.all.count > 0 %}
-  <div class="whydivs">
-    {% for why in problem.whys.all %}
-    <div class="whydiv">
-      <div class="whytext">
-        <h3>Why?({{forloop.counter}})</h3>
-      </div><!--whytext-->
-      <div class="subjumbowhy jumbotron">
-        <div class="list_upvotediv why_upvotediv"><!--UPVOTE DIV -->
-          <a class = "{% if user in why.upvotes.all %}voted{%endif%}" {% if user.is_authenticated %} href="{% url 'problems:whyupvote' pk=why.pk %}" {% else %} href="{% url "users:login" %}" {% endif %}>
-            <div class="sub_upvotediv">
-              <span class="glyphicon glyphicon-menu-up ticker"></span>
-            </div>
-          </a>
-          <div class="sub_upvotediv">
-            <span>{{why.total_votes}}</span>
-          </div>
-          <a class = "{% if user in why.downvotes.all %}voted{%endif%}" {% if user.is_authenticated %} href="{% url 'problems:whydownvote' pk=why.pk %}" {% else %} href="{% url "users:login" %}" {% endif %}>
-            <div class="sub_upvotediv">
-              <span class="glyphicon glyphicon-menu-down ticker"></span>
-            </div>
-          </a>
-        </div><!-- list_upvotediv -->
-        <div class="detailproblem_description why_description"><!--DESCRIPTION DIV -->
-          <h3>{{why.text}}</h3>
-        </div><!-- why_description -->
-
-        <!--********ADD COMMENT TO WHY BUTTON *************-->
-        <a class="btn btn-primary btn-why-comment" {% if user.is_authenticated %} href="{% url "problems:createcomment" pk=problem.pk type=why.pk%}"{% else %} href="{% url "users:login" %}" {% endif %}>Add Comment</a>
-
-        <!-- request and add why button -->
-        {% if user == problem.author %} <!--if the user is the author-->
-          <div class="btn-addwhy">
-            {% if not forloop.last %}
-              <div class="why_marker btn btn-primary"><i class="fa fa-question-circle" aria-hidden="true"></i></div>
-              {{why.total_why_requests}}
-            {% else %}
-              <a class="btn btn-success" {% if user.is_authenticated %} href="{% url "problems:createwhy" pk=problem.pk ansc=why.pk%}" {% else %} href="{% url "users:login" %}" {% endif %}>Add Why <i class="fa fa-question-circle" aria-hidden="true"></i></a>
-              {{why.total_why_requests}}
-            {% endif %}
-          </div>
-        {% else %}  <!--if the user is NOT the author-->
-          <div class="btn-addwhy">
-            {% if not forloop.last %}
-              <div class="why_marker btn btn-primary"><i class="fa fa-question-circle" aria-hidden="true"></i></div>
-            {{why.total_why_requests}}
-            {% else %}
-              <a class="btn {% if user in why.why_requests.all %} btn-warning {% else %} btn-primary {% endif %} btn-addwhy" {% if user.is_authenticated %}
-              href="{% url "problems:requestwhy" pk=why.pk type='2' %}" {% else %} href="{% url "users:login" %}" {% endif %}>
-              {% if user in why.why_requests.all %} Why Requested {% else %}Request Why {% endif %}
-              <i class="fa fa-question-circle" aria-hidden="true"></i></a>
-              {{why.total_why_requests}}
-            {% endif %}
-          </div>
-        {% endif %}
-
-      </div><!--subjumbowhy -->
-    </div><!-- whydiv -->
-
-        <!-- WHY COMMENTS -->
-        {% if why.comments.all.count > 0 %}
-          <div class="why_conversation">
-          {% for comment in why.comments.all %}
-            <strong>{{comment.author}}</strong>: {{comment.text}}
-            <br>
-
-            {% if user.is_authenticated %}
-              <a href="{% url 'problems:likecomment' pk=comment.pk %}">
-                {% if user in comment.likes.all %}Unlike{% else %}Like{% endif %}
-              </a>
-            {% else %}
-            <span class="glyphicon glyphicon-thumbs-up"></span>
-            {% endif %}
-
-
-
-            &nbsp;{{comment.total_likes}}&nbsp;&nbsp;
-            <a {% if user.is_authenticated %} href="{% url 'problems:createreply' pk=comment.pk type=why.pk%}" {% else %} href="{% url "users:login" %}" {% endif %}>Reply</a>
-            <br>
-            <!-- *******WHY REPLIES******** -->
-            {% for reply in comment.replies.all %}
-            <div id="replydiv">
-              <strong>{{reply.author}}</strong>: {{reply.text}}
-              <br>
-              {% if user.is_authenticated %}
-                <a href="{% url 'problems:likereply' pk=reply.pk%}">
-                  {% if user in reply.likes.all %}Unlike{% else %}Like{% endif %}
-                </a>
-              {% else %}
-                <span class="glyphicon glyphicon-thumbs-up"></span>
-              {% endif %}
-              &nbsp;{{reply.total_likes}}&nbsp;&nbsp;
-              <a {% if user.is_authenticated %} href="{% url 'problems:createreplyreply' pk=reply.pk type=why.pk%}" {% else %} href="{% url "users:login" %}" {% endif %}>Reply</a>
-            </div>
-            {% endfor %}
-          {% endfor%}
-        </div><!-- problem_conversation -->  <!--Problem Comments -->
-        {% endif %}
-
-    {% endfor %} <!--END WHY FOR-->
-  </div><!--whydivs -->
 {% endif %}
 
 

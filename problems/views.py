@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (View, TemplateView,
                                   CreateView, DetailView,
                                   ListView)
-from problems.forms import ProblemForm, CommentForm, ReplyForm, WhyForm
+from problems.forms import ProblemForm, CommentForm, ReplyForm
 from . import models
 from operator import itemgetter, attrgetter
 
@@ -94,22 +94,22 @@ def index_topsix(request):
     problems=x
     return render(request,'sitewide/index.html',{'problems':problems})
 
-def request_why(request,pk,type):
-    print('success')
-    if type == '1':
-        object = get_object_or_404(models.Problem, pk=pk)
-    else:
-        object = get_object_or_404(models.Why, pk=pk)
-    user = request.user
-
-    # if object.why_requests.filter(id=user.id).exists():
-    #     object.why_requests.remove(user)
-    # else:
-    object.why_requests.add(user)
-    if type == '1':
-        return redirect('problems:problem_detail', pk=object.pk)
-    else:
-        return redirect('problems:problem_detail', pk=object.problem.pk)
+# def request_why(request,pk,type):
+#     print('success')
+#     if type == '1':
+#         object = get_object_or_404(models.Problem, pk=pk)
+#     else:
+#         object = get_object_or_404(models.Why, pk=pk)
+#     user = request.user
+#
+#     # if object.why_requests.filter(id=user.id).exists():
+#     #     object.why_requests.remove(user)
+#     # else:
+#     object.why_requests.add(user)
+#     if type == '1':
+#         return redirect('problems:problem_detail', pk=object.pk)
+#     else:
+#         return redirect('problems:problem_detail', pk=object.problem.pk)
 
 def index_upvote(request,pk):
     upvote_problem(request,pk)
@@ -154,29 +154,29 @@ def downvote_problem(request,pk):
     return problem
 
 
-def upvote_why(request,pk):
-    why = get_object_or_404(models.Why,pk=pk)
-    user=request.user
-    if why.upvotes.filter(id=user.id).exists():
-        why.upvotes.remove(user)
-    elif why.downvotes.filter(id=user.id).exists():
-        why.downvotes.remove(user)
-        why.upvotes.add(user)
-    else:
-        why.upvotes.add(user)
-    print(why.upvotes.all())
-    return redirect('problems:problem_detail', pk=why.problem.pk)
-def downvote_why(request,pk):
-    why = get_object_or_404(models.Why,pk=pk)
-    user=request.user
-    if why.downvotes.filter(id=user.id).exists():
-        why.downvotes.remove(user)
-    elif why.upvotes.filter(id=user.id).exists():
-        why.upvotes.remove(user)
-        why.downvotes.add(user)
-    else:
-        why.downvotes.add(user)
-    return redirect('problems:problem_detail', pk=why.problem.pk)
+# def upvote_why(request,pk):
+#     why = get_object_or_404(models.Why,pk=pk)
+#     user=request.user
+#     if why.upvotes.filter(id=user.id).exists():
+#         why.upvotes.remove(user)
+#     elif why.downvotes.filter(id=user.id).exists():
+#         why.downvotes.remove(user)
+#         why.upvotes.add(user)
+#     else:
+#         why.upvotes.add(user)
+#     print(why.upvotes.all())
+#     return redirect('problems:problem_detail', pk=why.problem.pk)
+# def downvote_why(request,pk):
+#     why = get_object_or_404(models.Why,pk=pk)
+#     user=request.user
+#     if why.downvotes.filter(id=user.id).exists():
+#         why.downvotes.remove(user)
+#     elif why.upvotes.filter(id=user.id).exists():
+#         why.upvotes.remove(user)
+#         why.downvotes.add(user)
+#     else:
+#         why.downvotes.add(user)
+#     return redirect('problems:problem_detail', pk=why.problem.pk)
 
 
 
@@ -233,48 +233,40 @@ def add_reply_to_comment(request,pk,type):
     return render(request,'problems/reply_add.html',{'form':form, 'comment':comment})
 
 @login_required
-def add_comment(request,pk,type):
+def add_comment(request,pk):
     problem = get_object_or_404(models.Problem,pk=pk)
-    if int(type) != 0:
-        why = get_object_or_404(models.Why, pk=type)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
-            if int(type) != 0:
-                comment.is_problem_comment = False
-                comment.why = why
             comment.problem = problem
             comment.author = request.user
             comment.save()
             return redirect('problems:problem_detail',pk=problem.pk)
     else:
         form = CommentForm()
-    if int(type) != 0:
-        return render(request,'problems/comment_add.html',{'form':form, 'problem':problem, 'why':why})
-    else:
-        return render(request,'problems/comment_add.html',{'form':form, 'problem':problem})
+    return render(request,'problems/comment_add.html',{'form':form, 'problem':problem})
 
 
 
-@login_required
-def add_why_to_problem(request,pk,ansc):
-    problem = get_object_or_404(models.Problem,pk=pk)
-    if int(ansc) != 0:
-        print("it's true!")
-        whyansc = get_object_or_404(models.Why, pk=int(ansc))
-    if request.method == 'POST':
-        form = WhyForm(request.POST)
-        if form.is_valid():
-            why = form.save(commit=False)
-            why.problem = problem
-            why.author = request.user
-            why.save()
-            if int(ansc) != 0:
-                whyansc.has_descendent = True
-                print(whyansc.has_descendent)
-                whyansc.save()
-            return redirect('problems:problem_detail',pk=problem.pk)
-    else:
-        form = WhyForm()
-    return render(request,'problems/why_add.html',{'form':form, 'problem':problem})
+# @login_required
+# def add_why_to_problem(request,pk,ansc):
+#     problem = get_object_or_404(models.Problem,pk=pk)
+#     if int(ansc) != 0:
+#         print("it's true!")
+#         whyansc = get_object_or_404(models.Why, pk=int(ansc))
+#     if request.method == 'POST':
+#         form = WhyForm(request.POST)
+#         if form.is_valid():
+#             why = form.save(commit=False)
+#             why.problem = problem
+#             why.author = request.user
+#             why.save()
+#             if int(ansc) != 0:
+#                 whyansc.has_descendent = True
+#                 print(whyansc.has_descendent)
+#                 whyansc.save()
+#             return redirect('problems:problem_detail',pk=problem.pk)
+#     else:
+#         form = WhyForm()
+#     return render(request,'problems/why_add.html',{'form':form, 'problem':problem})

@@ -9,20 +9,20 @@ class Problem(models.Model):
     author = models.ForeignKey(User)
     anonymous_author = models.BooleanField(default=False)
     problem = models.ForeignKey('self',related_name='problems', null=True)
-    why_requests = models.ManyToManyField(User, related_name='problem_why_requests')
+    root_requests = models.ManyToManyField(User, related_name='problem_why_requests')
     text = models.TextField()
     create_date = models.DateTimeField(default=timezone.now)
     upvotes = models.ManyToManyField(User, related_name='upvotes')
     downvotes = models.ManyToManyField(User, related_name='downvotes')
 
-    def overall_votes(self):
-        upvotelist = self.upvotes.all()
-        downvotelist = self.downvotes.all()
-        if self.whys.count() > 0:
-            for why in self.whys.all():
-                upvotelist = list(set(list(upvotelist) + list(why.upvotes.all())))
-                downvotelist = list(set(list(downvotelist) + list(why.downvotes.all())))
-        return len(upvotelist) - len(downvotelist)
+    # def overall_votes(self):
+    #     upvotelist = self.upvotes.all()
+    #     downvotelist = self.downvotes.all()
+    #     if self.whys.count() > 0:
+    #         for why in self.whys.all():
+    #             upvotelist = list(set(list(upvotelist) + list(why.upvotes.all())))
+    #             downvotelist = list(set(list(downvotelist) + list(why.downvotes.all())))
+    #     return len(upvotelist) - len(downvotelist)
 
     def total_why_requests(self):
         return self.why_requests.count()
@@ -51,8 +51,8 @@ class Problem(models.Model):
 
 class Comment(models.Model):
     problem = models.ForeignKey('problems.Problem', related_name='comments', null=True)
-    is_problem_comment = models.BooleanField(default = True)
-    why = models.ForeignKey('problems.Why', related_name='comments', null=True)
+    # is_problem_comment = models.BooleanField(default = True)
+    # why = models.ForeignKey('problems.Why', related_name='comments', null=True)
     author = models.ForeignKey(User)
     text = models.TextField()
     create_date = models.DateTimeField(default=timezone.now)
@@ -95,24 +95,3 @@ class Reply(models.Model):
 
     class Meta:
         verbose_name_plural = "replies"
-
-class Why(models.Model):
-    problem = models.ForeignKey('problems.Problem', related_name='whys', null=True)
-    author = models.ForeignKey(User, related_name='why_author', null=True)
-    has_descendent = models.BooleanField(default=False)
-    text = models.TextField()
-    create_date = models.DateTimeField(default=timezone.now)
-    upvotes = models.ManyToManyField(User, related_name='why_upvotes')
-    downvotes = models.ManyToManyField(User, related_name='why_downvotes')
-    why_requests = models.ManyToManyField(User)
-    depth = models.IntegerField(default=0)
-
-
-    def total_why_requests(self):
-        return self.why_requests.count()
-
-    def total_votes(self):
-        return self.upvotes.count() - self.downvotes.count()
-
-    def __str__(self):
-        return self.text
