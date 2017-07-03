@@ -6,20 +6,10 @@
 
   {% for problem in problems%}
   <div class="problem_item">
-    <div class="list_upvotediv">
-      <a class = "{% if user in problem.upvotes.all %}voted{%endif%}" {% if user.is_authenticated %} href="{% url 'problems:listupvote' pk=problem.pk %}" {% else %} href="{% url "users:login" %}" {% endif %}>
-        <div class="sub_upvotediv">
-          <span class="glyphicon glyphicon-menu-up ticker"></span>
-        </div>
-      </a>
-      <div class="sub_upvotediv">
-        <span>{{problem.total_votes}}</span>
-      </div>
-      <a class = "{% if user in problem.downvotes.all %}voted{%endif%}" {% if user.is_authenticated %} href="{% url 'problems:listdownvote' pk=problem.pk %}" {% else %} href="{% url "users:login" %}" {% endif %}>
-        <div class="sub_upvotediv">
-          <span class="glyphicon glyphicon-menu-down ticker"></span>
-        </div>
-      </a>
+
+
+    <div class="index_overall_votes table_parent">
+      <div class="table_child">{%if problem.0.overall_votes > 0 %}+{%endif%}{{problem.0.overall_votes}}</div>
     </div>
 
     <a class="problem_link" href="{% url 'problems:problem_detail' pk=problem.pk %}">

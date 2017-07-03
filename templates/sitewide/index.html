@@ -10,35 +10,34 @@
   <div class="row">
 
   {% for problem in problems %}
-    <div class="col-lg-4 col-md-4 col-sm-6 box index_problemdiv">
-      <a href="{% url 'problems:problem_detail' pk=problem.0.pk %}">
-        <div class="index_problemborder">
+    {% if not problem.0.problem %}
+      <div class="col-lg-4 col-md-4 col-sm-6 box index_problemdiv">
+        <a href="{% url 'problems:problem_detail' pk=problem.0.pk %}">
+          <div class="index_problemborder">
 
-          <div class="index_overall_votes table_parent">
-            <div class="table_child">{%if problem.0.overall_votes > 0 %}+{%endif%}{{problem.0.overall_votes}}</div>
-          </div>
-
-
-
+            <div class="index_overall_votes table_parent">
+              <div class="table_child">{%if problem.0.overall_votes > 0 %}+{%endif%}{{problem.0.overall_votes}}</div>
+            </div>
 
 
 
-            <div class="index_problemdescription">
-              <h4>{{problem.0.text}}</h4>
-              <div class="index_problemauthor">
-                {{problem.0.comments.count}} comments
-                <br>
-                added by: {% if problem.0.anonymous_author %}anonymous{% else %}{{problem.0.author}}{%endif%}
-              </div>
-
-                <div class="index_problemwhys">
-                  Roots x placeholder
+              <div class="index_problemdescription">
+                <h4>{{problem.0.text}}</h4>
+                <div class="index_problemauthor">
+                  {{problem.0.comments.count}} comments
+                  <br>
+                  added by: {% if problem.0.anonymous_author %}anonymous{% else %}{{problem.0.author}}{%endif%}
                 </div>
-            </div><!-- index_problemdescription -->
 
-        </div><!-- index_problemborder -->
-      </a>
-    </div><!--index_problemdiv -->
+                  <div class="index_problemwhys">
+                    Roots x placeholder
+                  </div>
+              </div><!-- index_problemdescription -->
+
+          </div><!-- index_problemborder -->
+        </a>
+      </div><!--index_problemdiv -->
+    {% endif %}
   {% endfor %}
   </div><!-- row -->
 {% endblock %}

@@ -2,6 +2,14 @@
 
 <!-- PROBLEM -->
 {% block content %}
+
+<!-- OUTPUT ANCESTOR LINKS -->
+  {% for root in ancestor_array %}
+  <a href="{% url 'problems:problem_detail' pk=root.pk%}">{{root.text}}</a>
+  <br>
+  {% endfor %}
+
+<!-- JUMBOTRON CONTENT -->
   <div class="jumbotron problem_jumbo">
     <div class="detailproblem_item">
       <div class="list_upvotediv">
@@ -34,8 +42,8 @@
           <div class="why_marker btn btn-primary"></div>
           {{problem.total_root_requests}}
         {% else %}
-          <a class="btn btn-success" {% if user.is_authenticated %} href="" {% else %} href="{% url "users:login" %}" {% endif %}>Add Root</a>
-          {{problem.total_root_requests}} Root Requests
+          <a class="btn btn-success" {% if user.is_authenticated %} href="{% url "problems:create" pk=problem.pk %}" {% else %} href="{% url "users:login" %}" {% endif %}>Add Why Response</a>
+          {{problem.total_root_requests}} Why Requests
         {% endif %}
       </div>
     {% else %}  <!--if the user is NOT the author-->
@@ -47,12 +55,12 @@
 
         {% else %} <!-- user is not the author of the problem -->
             <!-- non-author Add Root Button -->
-            <a class="btn btn-success" {% if user.is_authenticated %} href="" {% else %}
-            href="{% url "users:login" %}" {% endif %}>Add Root</a>
+            <a class="btn btn-success" {% if user.is_authenticated %} href="{% url "problems:create" pk=problem.pk %}" {% else %}
+            href="{% url "users:login" %}" {% endif %}>Add Why Response</a>
             <!-- non-author Request Root Button -->
             <a class="btn {% if user in problem.root_requests.all %} btn-warning {% else %} btn-primary {% endif %} btn-addwhy" {% if user.is_authenticated %}
             href="" {% else %} href="{% url "users:login" %}" {% endif %}>
-            {% if user in problem.root_requests.all %} Why Requested {% else %}Request Root {% endif %}
+            {% if user in problem.root_requests.all %} Why Requested {% else %}Request Why {% endif %}
             </a>
             {{problem.total_root_requests}}
         {% endif %}
@@ -66,13 +74,22 @@
         Problem Score
       </div>
       <div id="problem_score_votes">
-       {{problem.overall_votes}}
+       0
       </div>
 
     </div>
   </div><!-- jumbotron -->
 
 
+
+<!-- ROOT PROBLEM LIST SECTION -->
+{% for root in problem.problems.all %}
+<a href="{% url 'problems:problem_detail' pk=root.pk %}">{{root.text}}</a>
+
+  <br>
+
+
+{% endfor %}
 
 
 

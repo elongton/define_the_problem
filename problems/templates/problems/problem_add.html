@@ -18,20 +18,9 @@
     </form>
   </div><!-- problemform -->
 {% else %}
-  <h1>Root problem: </h1>
-  <div class="problemform">
-    <form method="POST">
-      {% csrf_token %}
-        {{ form.text|add_class:"form-control"|attr:"placeholder:Describe the problem"}}
-      <div class="row">
-        <div class="col-sm-12">
-          <input type="submit" class='btn btn-primary app_submit' value=Submit>
-          <label>{{ form.anonymous_author|add_class:"form-check-input" }}Submit as anonymous</label>
-        </div>
-      </div>
 
-    </form>
-  </div><!-- problemform -->
+<!-- JUMBOTRON -->
+  <h1>Adding why response to: </h1>
   <div class="jumbotron subjumboproblem">
     <div class="detailproblem_item">
       <div class="list_upvotediv">
@@ -56,6 +45,21 @@
       </div>
     </div>
   </div><!-- jumbotron -->
+
+  <div class="problemform">
+    <form method="POST">
+      {% csrf_token %}
+        {{ form.text|add_class:"form-control"|attr:"placeholder:Add root here"}}
+      <div class="row">
+        <div class="col-sm-12">
+          <input type="submit" class='btn btn-primary app_submit' value=Submit>
+          <label>{{ form.anonymous_author|add_class:"form-check-input" }}Submit as anonymous</label>
+        </div>
+      </div>
+
+    </form>
+  </div><!-- problemform -->
+
 
 {% endif %}
 

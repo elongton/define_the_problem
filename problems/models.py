@@ -9,11 +9,11 @@ class Problem(models.Model):
     author = models.ForeignKey(User)
     anonymous_author = models.BooleanField(default=False)
     problem = models.ForeignKey('self',related_name='problems', null=True)
-    root_requests = models.ManyToManyField(User, related_name='problem_why_requests')
     text = models.TextField()
     create_date = models.DateTimeField(default=timezone.now)
     upvotes = models.ManyToManyField(User, related_name='upvotes')
     downvotes = models.ManyToManyField(User, related_name='downvotes')
+    in_response_to = models.TextField()
 
     # def overall_votes(self):
     #     upvotelist = self.upvotes.all()
@@ -27,8 +27,8 @@ class Problem(models.Model):
     def total_why_requests(self):
         return self.why_requests.count()
 
-    def has_root(self):
-        if self.root_problem:
+    def has_parent(self):
+        if self.problem:
             return True
         else:
             return False
@@ -48,6 +48,16 @@ class Problem(models.Model):
 
     def __str__(self):
         return str(self.text)
+
+class WhyRequest(models.Model):
+    problem = models.ForeignKey('problems.Problem', related_name='why_requests', null=True)
+    author = models.ForeignKey(User)
+    text = models.TextField()
+    create_date = models.DateTimeField(default=timezone.now)
+    likes = models.ManyToManyField(User, related_name='why_request_likes')
+
+    def total_likes(self):
+        return self.likes.count()
 
 class Comment(models.Model):
     problem = models.ForeignKey('problems.Problem', related_name='comments', null=True)

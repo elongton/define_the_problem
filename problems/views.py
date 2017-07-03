@@ -17,7 +17,6 @@ from operator import itemgetter, attrgetter
 #######################
 class IndexView(TemplateView):
     template_name = 'sitewide/index.html'
-
 class ProblemCreateView(CreateView):
     model = models.Problem
     fields = ('text','anonymous_author')
@@ -27,7 +26,7 @@ class ProblemCreateView(CreateView):
             if self.kwargs['pk'] == '0':
                 return super(ProblemCreateView, self).get(request, *args, **kwargs)
             else:
-                print('you are posting a super problem')
+                print('you are posting a root problem')
                 return super(ProblemCreateView, self).get(request, *args, **kwargs)
         else:
             return HttpResponseRedirect(reverse("users:login"))
@@ -42,35 +41,45 @@ class ProblemCreateView(CreateView):
     #     if self.kwargs['pk'] == '0':
     def form_valid(self, form):
         form.instance.author = self.request.user
-        self.object = form.save()
         if self.kwargs['pk'] != '0':
-            subproblem = get_object_or_404(models.Problem,pk=int(self.kwargs['pk']))
-            subproblem.root_problem = self.object
-            subproblem.save()
+            homeproblem = get_object_or_404(models.Problem,pk=int(self.kwargs['pk']))
+            form.instance.problem = homeproblem
+        self.object = form.save()
         # print(get_object_or_404(models.Problem,pk=int(self.kwargs['pk'])))
         # return super(ProblemCreateView, self).form_valid(self, form)
         return HttpResponseRedirect(self.get_success_url())
-
 class ProblemDetailView(DetailView):
     model = models.Problem
     context_object_name = 'problem'
     template_name = 'problems/problem_detail.html'
-    # def get_context_data(self, **kwargs):
-    #     ctx = super(ProblemDetailView, self).get_context_data(**kwargs)
-    #     problem = get_object_or_404(models.Problem,pk=int(self.kwargs['pk']))
-    #     upvotelist = problem.upvotes.all()
-    #     if problem.whys.count() > 0:
-    #         for why in problem.whys.all():
-    #             upvotelist = list(set(list(upvotelist) + list(why.upvotes.all())))
-    #     ctx['overall_upvotes'] = len(upvotelist)
-    #     ctx['problem'] = problem
-    #     return ctx
+    def get_context_data(self, **kwargs):
+        # here we are finding all the ancestors of the current problem
+        ctx = super(ProblemDetailView, self).get_context_data(**kwargs)
+        problem = get_object_or_404(models.Problem,pk=int(self.kwargs['pk']))
+        ancestor_array = []
+        if problem.has_parent() == True:
+            has_parent = True
+            problemloop = problem
+            while (has_parent == True):
+                ancestor_array.append(problemloop.problem)
+                if problemloop.problem.has_parent():
+                    has_parent = True
+                    problemloop = problemloop.problem
+                else:
+                    has_parent = False
+        ctx['ancestor_array'] = ancestor_array
 
+        # upvotelist = problem.upvotes.all()
+        # if problem.whys.count() > 0:
+        #     for why in problem.whys.all():
+        #         upvotelist = list(set(list(upvotelist) + list(why.upvotes.all())))
+        # ctx['overall_upvotes'] = len(upvotelist)
+        ctx['problem'] = problem
+        return ctx
 class ProblemListView(ListView):
     model = models.Problem
     context_object_name = 'problems'
     template_name = 'problems/problem_list.html'
-
 class IndexProblemListView(ListView):
     model = models.Problem
     context_object_name = 'problems'
@@ -79,8 +88,6 @@ class IndexProblemListView(ListView):
 #######################
 # FUNCTION BASED VIEWS
 #######################
-
-
 def index_topsix(request):
     problems = models.Problem.objects.all()
     x = []
@@ -93,7 +100,6 @@ def index_topsix(request):
         pass
     problems=x
     return render(request,'sitewide/index.html',{'problems':problems})
-
 # def request_why(request,pk,type):
 #     print('success')
 #     if type == '1':
@@ -110,25 +116,24 @@ def index_topsix(request):
 #         return redirect('problems:problem_detail', pk=object.pk)
 #     else:
 #         return redirect('problems:problem_detail', pk=object.problem.pk)
-
-def index_upvote(request,pk):
-    upvote_problem(request,pk)
-    return redirect('problems:home')
-def index_downvote(request,pk):
-    downvote_problem(request,pk)
-    return redirect('problems:home')
-def list_upvote(request,pk):
-    upvote_problem(request,pk)
-    return redirect('problems:list')
-def list_downvote(request,pk):
-    downvote_problem(request,pk)
-    return redirect('problems:list')
-def detail_upvote(request,pk):
-    problem = upvote_problem(request,pk)
-    return redirect('problems:problem_detail',pk=problem.pk)
-def detail_downvote(request,pk):
-    problem = downvote_problem(request,pk)
-    return redirect('problems:problem_detail',pk=problem.pk)
+# def index_upvote(request,pk):
+#     upvote_problem(request,pk)
+#     return redirect('problems:home')
+# def index_downvote(request,pk):
+#     downvote_problem(request,pk)
+#     return redirect('problems:home')
+# def list_upvote(request,pk):
+#     upvote_problem(request,pk)
+#     return redirect('problems:list')
+# def list_downvote(request,pk):
+#     downvote_problem(request,pk)
+#     return redirect('problems:list')
+# def detail_upvote(request,pk):
+#     problem = upvote_problem(request,pk)
+#     return redirect('problems:problem_detail',pk=problem.pk)
+# def detail_downvote(request,pk):
+#     problem = downvote_problem(request,pk)
+#     return redirect('problems:problem_detail',pk=problem.pk)
 def upvote_problem(request,pk):
     problem = get_object_or_404(models.Problem,pk=pk)
     user=request.user
@@ -139,8 +144,7 @@ def upvote_problem(request,pk):
         problem.upvotes.add(user)
     else:
         problem.upvotes.add(user)
-    print(problem.upvotes.all())
-    return problem
+    return redirect('problems:problem_detail',pk=problem.pk)
 def downvote_problem(request,pk):
     problem = get_object_or_404(models.Problem,pk=pk)
     user=request.user
@@ -151,8 +155,7 @@ def downvote_problem(request,pk):
         problem.downvotes.add(user)
     else:
         problem.downvotes.add(user)
-    return problem
-
+    return redirect('problems:problem_detail',pk=problem.pk)
 
 # def upvote_why(request,pk):
 #     why = get_object_or_404(models.Why,pk=pk)
@@ -177,8 +180,6 @@ def downvote_problem(request,pk):
 #     else:
 #         why.downvotes.add(user)
 #     return redirect('problems:problem_detail', pk=why.problem.pk)
-
-
 
 @login_required
 def like_comment(request,pk):
@@ -246,8 +247,6 @@ def add_comment(request,pk):
     else:
         form = CommentForm()
     return render(request,'problems/comment_add.html',{'form':form, 'problem':problem})
-
-
 
 # @login_required
 # def add_why_to_problem(request,pk,ansc):
