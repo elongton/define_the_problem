@@ -59,7 +59,7 @@
             href="{% url "users:login" %}" {% endif %}>Add Why Response</a>
             <!-- non-author Request Root Button -->
             <a class="btn {% if user in problem.root_requests.all %} btn-warning {% else %} btn-primary {% endif %} btn-addwhy" {% if user.is_authenticated %}
-            href="" {% else %} href="{% url "users:login" %}" {% endif %}>
+            href="{% url 'problems:addwhyrequest' pk=problem.pk%}" {% else %} href="{% url "users:login" %}" {% endif %}>
             {% if user in problem.root_requests.all %} Why Requested {% else %}Request Why {% endif %}
             </a>
             {{problem.total_root_requests}}
@@ -81,28 +81,49 @@
   </div><!-- jumbotron -->
 
 
+<div class="row">
+  <div class="col-sm-8">
+    <!-- ROOT PROBLEM LIST SECTION -->
+    {% for root in problem.problems.all %}
+    <a href="{% url 'problems:problem_detail' pk=root.pk %}">{{root.text}}</a>
+        <br>
+    {% endfor %}
+  </div>
+  <div class="col-sm-4 ">
+  {% if problem.why_requests.all.count > 0 %}
+    <h4>Why Requests:</h4>
+    <div>
+    {% for whyrequest in problem.why_requests.all %}
+    <div class="whyrequest_container">
+      <div class="whyrequestlikes">
+          <a href="{% url 'problems:likewhyrequest' pk=whyrequest.pk%}">Like</a>
+          {{whyrequest.total_likes}}
+      </div>
+      <div class="whyrequesttext">
+          {{whyrequest.text}}
+          <br>
+          <a class="btn btn-success whyrequestrespondbutton" href="">Respond</a>
+      </div>
+    </div><!-- whyrequest_containre -->
 
-<!-- ROOT PROBLEM LIST SECTION -->
-{% for root in problem.problems.all %}
-<a href="{% url 'problems:problem_detail' pk=root.pk %}">{{root.text}}</a>
+    {% endfor %}
 
-  <br>
+    </div>
+  {% endif %}
+  </div><!-- col-sm-4 -->
 
-
-{% endfor %}
-
+</div>
 
 
 
 <!-- COMMENT SECTION -->
 <hr>
 <!--BUTTON-->
-<a class="btn btn-primary btn-problem-comment" {% if user.is_authenticated %} href="{% url "problems:createcomment" pk=problem.pk type=0 %}"{% else %} href="{% url "users:login" %}" {% endif %}>Add Comment</a>
+<a class="btn btn-primary btn-problem-comment" {% if user.is_authenticated %} href="{% url "problems:createcomment" pk=problem.pk %}"{% else %} href="{% url "users:login" %}" {% endif %}>Add Comment</a>
 <!--COMMENTS -->
 {% if problem.comments.all.count > 0 %}
   <div class="problem_conversation">
   {% for comment in problem.comments.all %}
-    {% if comment.is_problem_comment == True %}
       <strong>{{comment.author}}</strong>: {{comment.text}}
       <br>
 
@@ -117,7 +138,7 @@
 
       <!-- ********PROBLEM REPLIES********* -->
       &nbsp;{{comment.total_likes}}&nbsp;&nbsp;
-      <a {% if user.is_authenticated %} href="{% url 'problems:createreply' pk=comment.pk type=0%}" {% else %} href="{% url "users:login" %}" {% endif %}>Reply</a>
+      <a {% if user.is_authenticated %} href="{% url 'problems:createreply' pk=comment.pk%}" {% else %} href="{% url "users:login" %}" {% endif %}>Reply</a>
       <br>
       {% for reply in comment.replies.all %}
       <div id="replydiv">
@@ -131,10 +152,9 @@
           <span class="glyphicon glyphicon-thumbs-up"></span>
         {% endif %}
         &nbsp;{{reply.total_likes}}&nbsp;&nbsp;
-        <a {% if user.is_authenticated %} href="{% url 'problems:createreplyreply' pk=reply.pk type=0%}" {% else %} href="{% url "users:login" %}" {% endif %}>Reply</a>
+        <a {% if user.is_authenticated %} href="{% url 'problems:createreplyreply' pk=reply.pk%}" {% else %} href="{% url "users:login" %}" {% endif %}>Reply</a>
       </div>
       {% endfor %}
-    {% endif %}
   {% endfor%}
 </div><!-- problem_conversation -->  <!--Problem Comments -->
 {% endif %}

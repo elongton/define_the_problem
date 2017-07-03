@@ -8,13 +8,16 @@ urlpatterns = [
     url(r'^create/(?P<pk>\d+)/$', views.ProblemCreateView.as_view(), name='create'),
     url(r'^problem/(?P<pk>\d+)/$', views.ProblemDetailView.as_view(), name='problem_detail'),
     url(r'^browse/$', views.ProblemListView.as_view(), name='list'),
-    url(r'^problem/(?P<pk>\d+)/(?P<type>\d+)/addcomment/$', views.add_comment, name='createcomment'),
-    url(r'^problem/(?P<pk>\d+)/(?P<type>\d+)/addreply/$', views.add_reply_to_comment, name='createreply'),
-    url(r'^problem/(?P<pk>\d+)/(?P<type>\d+)/addreplyreply/$', views.add_reply_to_reply, name='createreplyreply'),
+    url(r'^problem/(?P<pk>\d+)/addcomment/$', views.add_comment, name='createcomment'),
+    url(r'^problem/(?P<pk>\d+)/addreply/$', views.add_reply_to_comment, name='createreply'),
+    url(r'^problem/(?P<pk>\d+)/addreplyreply/$', views.add_reply_to_reply, name='createreplyreply'),
     url(r'^problem/(?P<pk>\d+)/likecomment/$', views.like_comment, name='likecomment'),
     url(r'^problem/(?P<pk>\d+)/likereply/$', views.like_reply, name='likereply'),
-    url(r'^problem/(?P<pk>\d+)/detailupvote/$', views.upvote_problem, name='detailupvote'),
-    url(r'^problem/(?P<pk>\d+)/detaildownvote/$', views.downvote_problem, name='detaildownvote'),
+    url(r'^problem/(?P<pk>\d+)/likewhyrequest/$', views.like_why_request, name='likewhyrequest'),
+    url(r'^problem/(?P<pk>\d+)/upvote/$', views.upvote_problem, name='detailupvote'),
+    url(r'^problem/(?P<pk>\d+)/downvote/$', views.downvote_problem, name='detaildownvote'),
+    url(r'^problem/(?P<pk>\d+)/addwhyrequest/$', views.add_why_request, name='addwhyrequest'),
+
 
 
     # url(r'^(?P<pk>\d+)/indexupvote/$',views.index_upvote, name='indexupvote'),

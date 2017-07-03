@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (View, TemplateView,
                                   CreateView, DetailView,
                                   ListView)
-from problems.forms import ProblemForm, CommentForm, ReplyForm
+from problems.forms import ProblemForm, CommentForm, ReplyForm, WhyRequestForm
 from . import models
 from operator import itemgetter, attrgetter
 
@@ -88,6 +88,24 @@ class IndexProblemListView(ListView):
 #######################
 # FUNCTION BASED VIEWS
 #######################
+
+def add_why_request(request, pk):
+    problem = get_object_or_404(models.Problem, pk=pk)
+    if request.method == 'POST':
+        form = WhyRequestForm(request.POST)
+        if form.is_valid():
+            whyrequest = form.save(commit=False)
+            whyrequest.author = request.user
+            whyrequest.problem = problem
+            whyrequest.save()
+            return redirect('problems:problem_detail', pk=problem.pk)
+    else:
+        form = WhyRequestForm()
+    return render(request, 'problems/whyrequest_add.html', {'form':form, 'problem': problem})
+
+
+
+
 def index_topsix(request):
     problems = models.Problem.objects.all()
     x = []
@@ -180,6 +198,17 @@ def downvote_problem(request,pk):
 #     else:
 #         why.downvotes.add(user)
 #     return redirect('problems:problem_detail', pk=why.problem.pk)
+@login_required
+def like_why_request(request,pk):
+    whyrequest = get_object_or_404(models.WhyRequest,pk=pk)
+    user = request.user
+    if whyrequest.likes.filter(id=user.id).exists():
+        whyrequest.likes.remove(user)
+    else:
+        whyrequest.likes.add(user)
+
+    return redirect('problems:problem_detail',pk=whyrequest.problem.pk)
+
 
 @login_required
 def like_comment(request,pk):
@@ -203,7 +232,7 @@ def like_reply(request,pk):
     return redirect('problems:problem_detail',pk=reply.comment.problem.pk)
 
 @login_required
-def add_reply_to_reply(request,pk,type):
+def add_reply_to_reply(request,pk):
     base_reply = get_object_or_404(models.Reply,pk=pk)
     if request.method == 'POST':
         form = ReplyForm(request.POST)
@@ -218,7 +247,7 @@ def add_reply_to_reply(request,pk,type):
     return render(request,'problems/reply_add.html',{'form':form, 'reply':base_reply})
 
 @login_required
-def add_reply_to_comment(request,pk,type):
+def add_reply_to_comment(request,pk):
     comment = get_object_or_404(models.Comment,pk=pk)
     print(comment.pk)
     if request.method == 'POST':

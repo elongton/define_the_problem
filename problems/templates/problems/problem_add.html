@@ -23,21 +23,7 @@
   <h1>Adding why response to: </h1>
   <div class="jumbotron subjumboproblem">
     <div class="detailproblem_item">
-      <div class="list_upvotediv">
-        <a class = "{% if user in problem.upvotes.all %}voted{%endif%}" {% if user.is_authenticated %} href="{% url 'problems:detailupvote' pk=problem.pk %}" {% else %} href="{% url "users:login" %}" {% endif %}>
-          <div class="sub_upvotediv">
-            <span class="glyphicon glyphicon-menu-up ticker"></span>
-          </div>
-        </a>
-        <div class="sub_upvotediv">
-          <span>{{problem.total_votes}}</span>
-        </div>
-        <a class = "{% if user in problem.downvotes.all %}voted{%endif%}" {% if user.is_authenticated %} href="{% url 'problems:detaildownvote' pk=problem.pk %}" {% else %} href="{% url "users:login" %}" {% endif %}>
-          <div class="sub_upvotediv">
-            <span class="glyphicon glyphicon-menu-down ticker"></span>
-          </div>
-        </a>
-      </div><!-- list_upvotediv -->
+
 
       <div class="detailproblem_description">
         <h3>{{problem.text}}</h3>

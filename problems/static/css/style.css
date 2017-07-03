@@ -14,9 +14,13 @@ a.voted{color: orange;}
 
 
 /*REGISTER PAGE*/
-div.register_field{margin-bottom: 10px;}
+div.register_field{margin-bottom: 12px;}
 
 /*DETAIL AND LIST VIEW*/
+a.whyrequestrespondbutton{font-size: 11px; padding: 3px 3px!important; margin-top: 5px;}
+div.whyrequest_container{margin-bottom: 10px;}
+div.whyrequestlikes{width: 50px; display: inline-block; vertical-align: top;}
+div.whyrequesttext{display: inline-block; width: calc(100% - 105px);}
 div.whydivs{margin-bottom: 100px;}
 div.problem_jumbo{position: relative; padding-left: 30px!important;}
 div.btn-addwhy{position: absolute; right: 20px; bottom: 20px;}
