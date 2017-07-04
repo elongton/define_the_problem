@@ -16,13 +16,21 @@ class Problem(models.Model):
     in_response_to = models.TextField()
 
     def overall_votes(self):
+        def recursive_vote_counter(upvotelist, downvotelist, problem):
+            if problem.problems:
+                for sub in problem.problems.all():
+                    upvotelist = list(set(list(upvotelist) + list(sub.upvotes.all())))
+                    downvotelist = list(set(list(downvotelist) + list(sub.downvotes.all())))
+                    return recursive_vote_counter(upvotelist, downvotelist, sub)
+            else:
+                return [upvotelist, downvotelist]
+
+
         upvotelist = self.upvotes.all()
         downvotelist = self.downvotes.all()
-        if self.problems.count() > 0:
-            for problem in self.problems.all():
-                upvotelist = list(set(list(upvotelist) + list(problem.upvotes.all())))
-                downvotelist = list(set(list(downvotelist) + list(problem.downvotes.all())))
-        return len(upvotelist) - len(downvotelist)
+        return recursive_vote_counter(upvotelist, downvotelist, self)
+
+
 
     def total_why_requests(self):
         return self.why_requests.count()
