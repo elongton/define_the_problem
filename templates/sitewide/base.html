@@ -30,7 +30,7 @@
             <a href="{% url "problems:list" %}">Browse</a>
           </li>
           <li>
-            <a href="{% url "problems:create" pk=0 %}">Add a Problem</a>
+            <a href="{% url "problems:create" pk=0 pk2=0%}">Add a Problem</a>
           </li>
           {% if user.is_authenticated %}
           <li>
@@ -50,4 +50,11 @@
       {% endblock %}
     </div><!-- container -->
   </body>
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+    crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
 </html>

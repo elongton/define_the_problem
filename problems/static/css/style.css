@@ -1,6 +1,7 @@
 
 /*GENERIC CLASSES*/
 .dashed{border: 1px dashed black;}
+.center{text-align: center;}
 .red{background-color: red;}
 .blue{background-color: blue;}
 .green{background-color: green;}
@@ -8,6 +9,7 @@
 .box a:hover{text-decoration: none;}
 .table_parent {display: table;}
 .table_child {display: table-cell; vertical-align: middle;}
+.nohovereffects:focus{outline:0;}
 
 /*MODIFIERS*/
 a.voted{color: orange;}
@@ -17,10 +19,16 @@ a.voted{color: orange;}
 div.register_field{margin-bottom: 12px;}
 
 /*DETAIL AND LIST VIEW*/
+div.modal-body{text-align: center!important;}
+div.subproblemvotesdiv{width: 46px; display: inline-block; text-align: center;}
+div.subproblemsdiv{display: inline-block;}
+div.root{margin-top: -25px; padding-left: 50px;}
+form.whyrequestform{margin-top: 10px;}
+div.whyrequestquestion{margin-left: 15px;}
 a.whyrequestrespondbutton{font-size: 11px; padding: 3px 3px!important; margin-top: 5px;}
 div.whyrequest_container{margin-bottom: 10px;}
-div.whyrequestlikes{width: 50px; display: inline-block; vertical-align: top;}
-div.whyrequesttext{display: inline-block; width: calc(100% - 105px);}
+div.whyrequestlikes{width: 65px; display: inline-block; vertical-align: top; text-align: right; padding-right: 10px;}
+div.whyrequesttext{display: inline-block; width: calc(100% - 70px);}
 div.whydivs{margin-bottom: 100px;}
 div.problem_jumbo{position: relative; padding-left: 30px!important;}
 div.btn-addwhy{position: absolute; right: 20px; bottom: 20px;}
@@ -84,6 +92,7 @@ a.problem_link{
   vertical-align: top;
   width: calc(100% - 70px);
   margin-bottom: 30px;}
+.newproblemdetaildescription{margin-bottom: 0px;}
 .detailproblem_description h3{margin-top: 10px;}
 .detailproblem_item{}
 

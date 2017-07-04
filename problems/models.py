@@ -15,14 +15,14 @@ class Problem(models.Model):
     downvotes = models.ManyToManyField(User, related_name='downvotes')
     in_response_to = models.TextField()
 
-    # def overall_votes(self):
-    #     upvotelist = self.upvotes.all()
-    #     downvotelist = self.downvotes.all()
-    #     if self.whys.count() > 0:
-    #         for why in self.whys.all():
-    #             upvotelist = list(set(list(upvotelist) + list(why.upvotes.all())))
-    #             downvotelist = list(set(list(downvotelist) + list(why.downvotes.all())))
-    #     return len(upvotelist) - len(downvotelist)
+    def overall_votes(self):
+        upvotelist = self.upvotes.all()
+        downvotelist = self.downvotes.all()
+        if self.problems.count() > 0:
+            for problem in self.problems.all():
+                upvotelist = list(set(list(upvotelist) + list(problem.upvotes.all())))
+                downvotelist = list(set(list(downvotelist) + list(problem.downvotes.all())))
+        return len(upvotelist) - len(downvotelist)
 
     def total_why_requests(self):
         return self.why_requests.count()

@@ -35,6 +35,9 @@ class ProblemCreateView(CreateView):
         if self.kwargs['pk'] != '0':
             problem = get_object_or_404(models.Problem,pk=int(self.kwargs['pk']))
             ctx['problem'] = problem
+        if self.kwargs['pk2'] != '0':
+            whyrequest = get_object_or_404(models.WhyRequest, pk=int(self.kwargs['pk2']))
+            ctx['whyrequest'] = whyrequest
         ctx['pk'] = self.kwargs['pk']
         return ctx
     # def post(self, request, *args, **kwargs):
@@ -44,6 +47,9 @@ class ProblemCreateView(CreateView):
         if self.kwargs['pk'] != '0':
             homeproblem = get_object_or_404(models.Problem,pk=int(self.kwargs['pk']))
             form.instance.problem = homeproblem
+        if self.kwargs['pk2'] != '0':
+            whyrequest = get_object_or_404(models.WhyRequest, pk=int(self.kwargs['pk2']))
+            form.instance.in_response_to = whyrequest.text
         self.object = form.save()
         # print(get_object_or_404(models.Problem,pk=int(self.kwargs['pk'])))
         # return super(ProblemCreateView, self).form_valid(self, form)

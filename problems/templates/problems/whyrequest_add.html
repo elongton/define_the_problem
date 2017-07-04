@@ -5,12 +5,18 @@
 {% block content %}
 
 <h2>Requesting a why for:</h2>
-<h3>{{problem.text}}</h3>
+<div class="whyrequestquestion">
+  <h3>{{problem.text}}</h3>
+  <i>Why requests should be in the form of a question.</i>
+</div>
 
-<form method="POST">
+<form method="POST" class= 'whyrequestform'>
   {% csrf_token %}
   {{ form.text|add_class:"form-control"|attr:"placeholder:What would you like to ask the author?"}}
   <input type="submit" class='btn btn-primary app_submit' value=Submit>
 </form>
+
+
+
 
 {% endblock %}

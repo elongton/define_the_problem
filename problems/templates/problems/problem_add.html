@@ -23,19 +23,21 @@
   <h1>Adding why response to: </h1>
   <div class="jumbotron subjumboproblem">
     <div class="detailproblem_item">
-
-
-      <div class="detailproblem_description">
+      <div class="detailproblem_description newproblemdetaildescription">
         <h3>{{problem.text}}</h3>
         <h5>Author: <strong>{% if problem.anonymous_author %}anonymous{% else %}{{problem.author}}{%endif%}</strong></h5>
       </div>
     </div>
   </div><!-- jumbotron -->
-
+  {% if whyrequest %}
+  <div>
+    <h5><strong>Why Request:</strong> {{whyrequest.text}}</h5>
+  </div>
+  {% endif %}
   <div class="problemform">
     <form method="POST">
       {% csrf_token %}
-        {{ form.text|add_class:"form-control"|attr:"placeholder:Add root here"}}
+        {{ form.text|add_class:"form-control"|attr:"placeholder:Add why response here"}}
       <div class="row">
         <div class="col-sm-12">
           <input type="submit" class='btn btn-primary app_submit' value=Submit>

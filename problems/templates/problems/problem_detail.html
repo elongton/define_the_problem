@@ -4,10 +4,14 @@
 {% block content %}
 
 <!-- OUTPUT ANCESTOR LINKS -->
+{% if ancestor_array %}
   {% for root in ancestor_array %}
   <a href="{% url 'problems:problem_detail' pk=root.pk%}">{{root.text}}</a>
   <br>
   {% endfor %}
+{% else %}
+  <h2>Presenting Problem:</h2>
+{% endif %}
 
 <!-- JUMBOTRON CONTENT -->
   <div class="jumbotron problem_jumbo">
@@ -42,8 +46,7 @@
           <div class="why_marker btn btn-primary"></div>
           {{problem.total_root_requests}}
         {% else %}
-          <a class="btn btn-success" {% if user.is_authenticated %} href="{% url "problems:create" pk=problem.pk %}" {% else %} href="{% url "users:login" %}" {% endif %}>Add Why Response</a>
-          {{problem.total_root_requests}} Why Requests
+          <a class="btn btn-success" {% if user.is_authenticated %} href="{% url "problems:create" pk=problem.pk pk2=0 %}" {% else %} href="{% url "users:login" %}" {% endif %}>Add Why Response</a>
         {% endif %}
       </div>
     {% else %}  <!--if the user is NOT the author-->
@@ -55,7 +58,7 @@
 
         {% else %} <!-- user is not the author of the problem -->
             <!-- non-author Add Root Button -->
-            <a class="btn btn-success" {% if user.is_authenticated %} href="{% url "problems:create" pk=problem.pk %}" {% else %}
+            <a class="btn btn-success" {% if user.is_authenticated %} href="{% url "problems:create" pk=problem.pk pk2=0 %}" {% else %}
             href="{% url "users:login" %}" {% endif %}>Add Why Response</a>
             <!-- non-author Request Root Button -->
             <a class="btn {% if user in problem.root_requests.all %} btn-warning {% else %} btn-primary {% endif %} btn-addwhy" {% if user.is_authenticated %}
@@ -74,35 +77,85 @@
         Problem Score
       </div>
       <div id="problem_score_votes">
-       0
+       {{problem.overall_votes}}
       </div>
 
     </div>
   </div><!-- jumbotron -->
 
-
+{% if problem.problems.all.count > 0%}
+<div class="root">
+  |<br>
+</div>
+{% endif %}
 <div class="row">
   <div class="col-sm-8">
-    <!-- ROOT PROBLEM LIST SECTION -->
-    {% for root in problem.problems.all %}
-    <a href="{% url 'problems:problem_detail' pk=root.pk %}">{{root.text}}</a>
-        <br>
+    {% for sub in problem.problems.all %}
+      <div class="subproblemvotesdiv">
+        {% if sub.total_votes > 0%}
+        +{{sub.total_votes}}
+        {%else%}
+        {{sub.total_votes}}
+        {%endif%}
+
+      </div>
+      <div class="subproblemsdiv ">
+
+
+        <!-- SUB PROBLEM LIST SECTION -->
+        |<br>
+        |-----{% if sub.in_response_to %}
+        <a href="" data-toggle="modal" data-target="#{{sub.pk}}" class="nohovereffects"><i class="fa fa-registered" aria-hidden="true"></i></a>
+                    <div id="{{sub.pk}}" class="modal fade" role="dialog">
+                      <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Why Request:</h4>
+                          </div>
+                          <div class="modal-body">
+                            <h3>{{sub.in_response_to}}</h3>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div><!-- modal window -->
+        ----{% endif %}
+        <a href="{% url 'problems:problem_detail' pk=sub.pk %}">{{sub.text}}</a>
+            <br>
+      </div>
+      <br>
     {% endfor %}
+
   </div>
+
+  <!-- WHY REQUEST DIV -->
   <div class="col-sm-4 ">
   {% if problem.why_requests.all.count > 0 %}
     <h4>Why Requests:</h4>
     <div>
     {% for whyrequest in problem.why_requests.all %}
     <div class="whyrequest_container">
+
       <div class="whyrequestlikes">
-          <a href="{% url 'problems:likewhyrequest' pk=whyrequest.pk%}">Like</a>
+        {% if user.is_authenticated %}
+          <a {% if user.is_authenticated %} href="{% url 'problems:likewhyrequest' pk=whyrequest.pk%}" {% else %}
+          href="{% url "users:login" %}" {% endif %}>
+            {% if user in whyrequest.likes.all %}Unlike{% else %}Like{% endif %}</a>
+        {% else %}
+          <span class="glyphicon glyphicon-thumbs-up"></span>
+        {% endif %}
           {{whyrequest.total_likes}}
       </div>
       <div class="whyrequesttext">
           {{whyrequest.text}}
           <br>
-          <a class="btn btn-success whyrequestrespondbutton" href="">Respond</a>
+          <a class="btn btn-success whyrequestrespondbutton" {% if user.is_authenticated %}
+          href="{% url "problems:create" pk=problem.pk pk2=whyrequest.pk %}" {% else %} href="{% url "users:login" %}" {% endif %}>Respond</a>
       </div>
     </div><!-- whyrequest_containre -->
 
