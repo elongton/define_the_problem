@@ -19,6 +19,8 @@ a.voted{color: orange;}
 div.register_field{margin-bottom: 12px;}
 
 /*DETAIL AND LIST VIEW*/
+.ancestor_link{margin-left: 10px;}
+.ancestor_dot{margin-left: -4px}
 div.modal-body{text-align: center!important;}
 div.subproblemvotesdiv{width: 46px; display: inline-block; text-align: center;}
 div.subproblemsdiv{display: inline-block;}

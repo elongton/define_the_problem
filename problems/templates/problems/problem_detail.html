@@ -6,11 +6,12 @@
 <!-- OUTPUT ANCESTOR LINKS -->
 {% if ancestor_array %}
   {% for root in ancestor_array reversed%}
-  <a href="{% url 'problems:problem_detail' pk=root.pk%}">{{root.text}}</a>
-  <br>
-  |
-  <br>
-  |
+      <i class="fa fa-circle ancestor_dot" aria-hidden="true"></i><a class="ancestor_link" href="{% url 'problems:problem_detail' pk=root.pk%}">{{root.text}}</a> {% if forloop.first%}(Presenting Problem){%endif%}
+      <br>
+      |
+      <br>
+      |
+      <br>
   {% endfor %}
 {% else %}
   <h2>Presenting Problem:</h2>
@@ -133,7 +134,7 @@
                     </div><!-- modal window -->
         ----{% endif %}
         <a href="{% url 'problems:problem_detail' pk=sub.pk %}">{{sub.text}}</a>
-        -- {{sub.count_subproblems}} {%if sub.count_subproblems == 1%}root{%else%}roots{%endif%}
+        -- {{sub.count_subproblems}} {%if sub.count_subproblems == 1%}why{%else%}whys{%endif%}
             <br>
       </div>
       <br>
