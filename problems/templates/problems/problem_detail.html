@@ -77,7 +77,11 @@
         Problem Score
       </div>
       <div id="problem_score_votes">
-       {{problem.overall_votes}}
+        {% if problem.present_overall_votes > 0%}
+        +{{problem.present_overall_votes}}
+        {%else%}
+        {{problem.present_overall_votes}}
+        {%endif%}
       </div>
 
     </div>
@@ -92,10 +96,10 @@
   <div class="col-sm-8">
     {% for sub in problem.problems.all %}
       <div class="subproblemvotesdiv">
-        {% if sub.total_votes > 0%}
-        +{{sub.total_votes}}
+        {% if sub.overall_votes > 0%}
+        +{{sub.overall_votes}}
         {%else%}
-        {{sub.total_votes}}
+        {{sub.overall_votes}}
         {%endif%}
 
       </div>
@@ -126,6 +130,7 @@
                     </div><!-- modal window -->
         ----{% endif %}
         <a href="{% url 'problems:problem_detail' pk=sub.pk %}">{{sub.text}}</a>
+        -- {{sub.count_subproblems}} roots
             <br>
       </div>
       <br>

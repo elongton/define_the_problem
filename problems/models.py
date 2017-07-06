@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.dispatch import receiver
 
 
+
 class Problem(models.Model):
     author = models.ForeignKey(User)
     anonymous_author = models.BooleanField(default=False)
@@ -15,20 +16,49 @@ class Problem(models.Model):
     downvotes = models.ManyToManyField(User, related_name='downvotes')
     in_response_to = models.TextField()
 
-    def overall_votes(self):
-        def recursive_vote_counter(upvotelist, downvotelist, problem):
+    def count_subproblems(self):
+        def count_subs(problem):
+            count = 0
             if problem.problems:
-                for sub in problem.problems.all():
-                    upvotelist = list(set(list(upvotelist) + list(sub.upvotes.all())))
-                    downvotelist = list(set(list(downvotelist) + list(sub.downvotes.all())))
-                    return recursive_vote_counter(upvotelist, downvotelist, sub)
-            else:
-                return [upvotelist, downvotelist]
+                for p in problem.problems.all():
+                    count = count + 1
+                    count = count + count_subs(p)
+            return count
+
+        return count_subs(self)
 
 
-        upvotelist = self.upvotes.all()
-        downvotelist = self.downvotes.all()
-        return recursive_vote_counter(upvotelist, downvotelist, self)
+    def overall_votes(self):
+        def recursive_upvotes(problem):
+            upvotelist = self.upvotes.all()
+            if problem.problems:
+                for p in problem.problems.all():
+                    upvotelist = list(set(list(upvotelist) + list(p.upvotes.all())))
+                    upvotelist = list(set(list(upvotelist) + list(recursive_upvotes(p))))
+            return upvotelist
+        def recursive_downvotes(problem):
+            downvotelist = self.downvotes.all()
+            if problem.problems:
+                for p in problem.problems.all():
+                    downvotelist = list(set(list(downvotelist) + list(p.downvotes.all())))
+                    downvotelist = list(set(list(downvotelist) + list(recursive_downvotes(p))))
+            return downvotelist
+        return len(recursive_upvotes(self)) - len(recursive_downvotes(self))
+
+
+    def present_overall_votes(self):
+        presenting_problem = self
+        if self.has_parent() == True:
+            has_parent = True
+            problemloop = self
+            while (has_parent == True):
+                presenting_problem = problemloop.problem
+                if problemloop.problem.has_parent():
+                    has_parent = True
+                    problemloop = problemloop.problem
+                else:
+                    has_parent = False
+        return presenting_problem.overall_votes()
 
 
 
