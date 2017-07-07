@@ -116,7 +116,7 @@ def index_topsix(request):
     problems = models.Problem.objects.all()
     x = []
     for problem in problems:
-        x.append((problem, problem.total_votes()))
+        x.append((problem, problem.present_overall_votes()))
     x = sorted(x, key=itemgetter(1), reverse=True)
     if len(x) >=9:
         x = x[:9]

@@ -18,6 +18,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'',include('problems.urls', namespace='basic_app')),
+    url(r'',include('problems.urls', namespace='problems')),
+    url(r'',include('feedback.urls', namespace='feedback')),
     url(r'^users/',include('users.urls')),
 ]

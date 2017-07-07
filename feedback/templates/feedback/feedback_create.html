@@ -1,0 +1,19 @@
+{% extends 'sitewide/base.html'%}
+{% load widget_tweaks %}
+
+{% block content%}
+
+<form method="POST">
+  {% csrf_token %}
+    {{ form.text|add_class:"form-control"|attr:"placeholder:Add feedback here"}}
+  <div class="row">
+    <div class="col-sm-12">
+      <input type="submit" class='btn btn-primary app_submit' value=Submit>
+    </div>
+  </div>
+
+</form>
+
+
+
+{% endblock %}
