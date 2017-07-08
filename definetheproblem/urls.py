@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from organizations.backends import invitation_backend
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'',include('problems.urls', namespace='problems')),
     url(r'',include('feedback.urls', namespace='feedback')),
     url(r'^users/',include('users.urls')),
+    url(r'^accounts/', include('organizations.urls')),
+    url(r'^invitations/', include(invitation_backend().get_urls())),
 ]

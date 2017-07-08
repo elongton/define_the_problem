@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'users',
     'feedback',
     'widget_tweaks',
+    'organizations',
 
 ]
 
@@ -129,3 +130,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+
+# ORGANIZATIONS
+ORGS_SLUGFIELD = 'autoslug.fields.AutoSlugField'
