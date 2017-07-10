@@ -133,4 +133,4 @@ LOGOUT_REDIRECT_URL = '/'
 
 
 # ORGANIZATIONS
-ORGS_SLUGFIELD = 'autoslug.fields.AutoSlugField'
+ORGS_SLUGFIELD = 'django_extensions.db.fields.AutoSlugField'
