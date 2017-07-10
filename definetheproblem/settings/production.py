@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'feedback',
     'widget_tweaks',
     'organizations',
+    'storages',
 
 ]
 
