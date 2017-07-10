@@ -31,7 +31,7 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['definetheproblem.herokuapp.com', 'definetheproblem.com']
+ALLOWED_HOSTS = ['https://definetheproblem.herokuapp.com/', 'definetheproblem.com']
 
 
 # Application definition
