@@ -1,1 +1,1 @@
-"web: gunicorn dj-definetheproblem.wsgi" 
+"web: gunicorn definetheproblem.wsgi"
