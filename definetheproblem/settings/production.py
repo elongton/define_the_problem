@@ -1,3 +1,4 @@
+
 """
 Django settings for definetheproblem project.
 
@@ -13,7 +14,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 USER_TEMPLATES_DIR = os.path.join(BASE_DIR, 'users/templates')
 PROBLEM_TEMPLATES_DIR = os.path.join(BASE_DIR, 'problems/templates')
@@ -24,12 +26,12 @@ PROBLEM_TEMPLATES_DIR = os.path.join(BASE_DIR, 'problems/templates')
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '4r(51#_^x+qxole9uwr!&^k%gv()_6-_p7omb(^k%twprd=vi&'
+SECRET_KEY = os.environ.get('SECRET_KEY','4r(51#_^x+qxole9uwr!&^k%gv()_6-_p7omb(^k%twprd=vi&')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['definetheproblem.herokuapp.com', 'definetheproblem.com']
 
 
 # Application definition
@@ -89,6 +91,11 @@ DATABASES = {
     }
 }
 
+import dj_database_url
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
+# DATABASES['default']['CONN_MAX_AGE'] = 500
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -134,3 +141,15 @@ LOGOUT_REDIRECT_URL = '/'
 
 # ORGANIZATIONS
 ORGS_SLUGFIELD = 'django_extensions.db.fields.AutoSlugField'
+
+
+
+CORS_REPLACE_HTTPS_REFERER      = True
+HOST_SCHEME                     = "https://"
+SECURE_PROXY_SSL_HEADER         = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT             = True
+SESSION_COOKIE_SECURE           = True
+CSRF_COOKIE_SECURE              = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS  = True
+SECURE_HSTS_SECONDS             = 1000000
+SECURE_FRAME_DENY               = True
