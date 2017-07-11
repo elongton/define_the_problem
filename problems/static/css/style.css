@@ -18,7 +18,22 @@ a.voted{color: orange;}
 /*REGISTER PAGE*/
 div.register_field{margin-bottom: 12px;}
 
-/*DETAIL AND LIST VIEW*/
+/*LIST VIEW*/
+.list_overall_votes{display:inline-block;}
+div.list_upvotediv{
+  text-align: center;
+  width: 50px;
+  display: inline-block;}
+a.list_problem_link{
+  padding-left: 20px;
+  text-decoration: none;
+  color: black;
+  display: inline-block;
+  vertical-align: top;
+  width: calc(100% - 100px);
+}
+
+/*DETAIL VIEW*/
 .ancestor_link{margin-left: 10px;}
 .ancestor_dot{margin-left: -4px}
 div.modal-body{text-align: center!important;}
@@ -41,10 +56,10 @@ div.why_marker{display: inline-block;}
 div.detail_problem_weight{
   position: fixed;
   border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-top-left-radius: 5px;
   background-color: #eee;
-  top: 100px;
-  left: 0px;
+  bottom: 0;
+  right: 20px;
 }
     div#problem_score_title{
       width: 150px;
@@ -73,17 +88,7 @@ div.whydiv{margin-top: 20px;}
 div.why_upvotediv{vertical-align: middle;}
 
 
-div.list_upvotediv{
-  text-align: center;
-  width: 50px;
-  display: inline-block;}
-a.problem_link{
-  text-decoration: none;
-  color: black;
-  display: inline-block;
-  vertical-align: top;
-  width: calc(100% - 70px);
-}
+
 .ticker{font-size: 25px;}
 #replydiv{margin-left: 25px;}
 .sub_upvotediv span{

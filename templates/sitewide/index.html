@@ -10,7 +10,7 @@
   <div class="row">
 
   {% for problem in problems %}
-    {% if not problem.0.problem %}
+    {% if not problem.0.problem %} <!-- if it's not a subproblem -->
       <div class="col-lg-4 col-md-4 col-sm-6 box index_problemdiv">
         <a href="{% url 'problems:problem_detail' pk=problem.0.pk %}">
           <div class="index_problemborder">
