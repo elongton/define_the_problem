@@ -1,9 +1,16 @@
+boto3==1.4.4
+botocore==1.5.80
 dj-database-url==0.4.2
 Django==1.11.2
 django-extensions==1.8.1
 django-organizations==0.9.1
+django-storages==1.6.3
 django-widget-tweaks==1.4.1
+docutils==0.13.1
 gunicorn==19.7.1
+jmespath==0.9.3
 psycopg2==2.7.1
+python-dateutil==2.6.1
 pytz==2017.2
+s3transfer==0.1.10
 six==1.10.0
