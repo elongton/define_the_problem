@@ -133,7 +133,7 @@
                       </div>
                     </div><!-- modal window -->
         ----{% endif %}
-        <a href="{% url 'problems:problem_detail' pk=sub.pk %}">{{sub.text}}</a>
+        <a href="{% url 'problems:problem_detail' pk=sub.pk %}">{{sub.text|truncatewords_html:10}}</a>
         -- {{sub.count_subproblems}} {%if sub.count_subproblems == 1%}why{%else%}whys{%endif%}
             <br>
       </div>
