@@ -22,7 +22,7 @@
 
 
               <div class="index_problemdescription">
-                <h4>{{problem.0.text|slice:":200"}}</h4>
+                <h4>{{problem.0.text|truncatewords_html:17}}</h4>
                 <div class="index_problemauthor">
                   {{problem.0.comments.count}} comments
                   <br>
