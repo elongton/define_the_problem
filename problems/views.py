@@ -15,8 +15,8 @@ from operator import itemgetter, attrgetter
 #######################
 # CLASS BASED VIEWS
 #######################
-class IndexView(TemplateView):
-    template_name = 'sitewide/index.html'
+# class IndexView(TemplateView):
+#     template_name = 'sitewide/index.html'
 class ProblemCreateView(CreateView):
     model = models.Problem
     fields = ('text','anonymous_author')
@@ -118,8 +118,8 @@ def index_topsix(request):
     for problem in problems:
         x.append((problem, problem.present_overall_votes()))
     x = sorted(x, key=itemgetter(1), reverse=True)
-    if len(x) >=9:
-        x = x[:9]
+    if len(x) >=100:
+        x = x[:100]
     else:
         pass
     problems=x
